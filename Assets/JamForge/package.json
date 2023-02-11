@@ -1,0 +1,10 @@
+{
+  "name": "com.anomalybound.jamforce",
+  "displayName": "JamForge Framework",
+  "version": "1.0.0",
+  "unity": "2022.2",
+  "description": "JamForge is a framework for creating games in Unity. It is designed to be used in game jams, but can be used for any project.",
+  "type": "tool",
+  "dependencies": {
+  }
+}
