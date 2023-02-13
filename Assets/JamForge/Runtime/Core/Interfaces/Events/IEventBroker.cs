@@ -14,10 +14,10 @@ namespace JamForge.Events
         void Register<TEvent>(Action<TEvent> action, short priority = 0,
             ThreadMode threadMode = ThreadMode.Current) where TEvent : Payloads;
 
-        void Register<TEvent>(string endpoint, Action<TEvent> action,
+        void Register<TEvent>(string path, Action<TEvent> action,
             short priority = 0, ThreadMode threadMode = ThreadMode.Current) where TEvent : Payloads;
 
-        void Unregister<TEvent>(string endpoint, Action<TEvent> action) where TEvent : Payloads;
+        void Unregister<TEvent>(string path, Action<TEvent> action) where TEvent : Payloads;
 
         void Unregister<TEvent>(Action<TEvent> action) where TEvent : Payloads;
 
@@ -25,12 +25,12 @@ namespace JamForge.Events
 
         #region Fire Events
 
-        void Fire(string endpoint);
+        void Fire(string path);
 
         void Fire<TEventData>(TEventData payloads)
             where TEventData : Payloads;
 
-        void Fire<TEventData>(string endpoint, TEventData payloads)
+        void Fire<TEventData>(string path, TEventData payloads)
             where TEventData : Payloads;
 
         #endregion
@@ -49,12 +49,12 @@ namespace JamForge.Events
 
     public interface IAsyncEventBroker
     {
-        UniTask FireAsync(string endpoint);
+        UniTask FireAsync(string path);
 
         UniTask FireAsync<TEventData>(TEventData payloads)
             where TEventData : Payloads;
 
-        UniTask FireAsync<TEventData>(string endpoint, TEventData payloads)
+        UniTask FireAsync<TEventData>(string path, TEventData payloads)
             where TEventData : Payloads;
     }
 }

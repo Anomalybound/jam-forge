@@ -1,45 +1,17 @@
-using System;
 using JamForge.Events;
 using UnityEngine;
-using UnityEngine.Assertions;
 using VContainer;
 using VContainer.Unity;
 
 namespace JamForge
 {
-    public class Jam
+    public partial class Jam
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Reset()
         {
             _instance = null;
             _facadeScope = null;
-        }
-
-        public class ResolverWrapper
-        {
-            private readonly IObjectResolver _resolver;
-
-            public ResolverWrapper(IObjectResolver resolver)
-            {
-                _resolver = resolver;
-            }
-
-            public T Resolve<T>()
-            {
-                return _resolver.Resolve<T>();
-            }
-
-            public object Resolve(Type type)
-            {
-                return _resolver.Resolve(type);
-            }
-
-            public T Inject<T>(T instance)
-            {
-                _resolver.Inject(instance);
-                return instance;
-            }
         }
 
         private static LifetimeScope _facadeScope;

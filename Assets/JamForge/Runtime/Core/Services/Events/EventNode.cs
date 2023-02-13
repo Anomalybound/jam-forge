@@ -12,21 +12,16 @@ namespace JamForge.Events
 
         public Dictionary<string, EventNode> Children { get; } = new();
 
-        private HashSet<Subscription> Subscriptions { get; set; } = new();
+        public HashSet<Subscription> Subscriptions { get; private set; } = new();
 
         public EventNode(string endpoint)
         {
             Endpoint = endpoint;
         }
 
-        public void SetParent(EventNode node)
+        private void SetParent(EventNode node)
         {
             Parent = node;
-        }
-
-        public IEnumerable<Subscription> GetSubscriptions()
-        {
-            return Subscriptions;
         }
 
         public void AddSubscription(Subscription subscription)

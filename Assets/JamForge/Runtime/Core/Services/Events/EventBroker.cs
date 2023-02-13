@@ -50,12 +50,13 @@ namespace JamForge.Events
             var subscriptions = SubscriptionHelper.FindSubscriber(obj);
             foreach (var subscription in subscriptions)
             {
-                var endpoint = subscription.Endpoint;
-                if (_stickyEvents.TryGetValue(endpoint, out var eventData))
+                var path = subscription.Endpoint;
+                if (_stickyEvents.TryGetValue(path, out var eventData))
                 {
                     FireEvent(subscription, eventData);
                 }
 
+                EnsurePathExists(path);
                 EventNode.AddSubscription(_rootNode, subscription);
             }
         }
@@ -72,20 +73,10 @@ namespace JamForge.Events
             }
 
             var subscriptions = SubscriptionHelper.FindSubscriber(obj);
-            foreach (var subscription in subscriptions) { EventNode.RemoveSubscription(_rootNode, subscription); }
-        }
-
-        public void Register<TEvent>(string endpoint, Action<TEvent> action, short priority = 0, ThreadMode threadMode = ThreadMode.Current)
-            where TEvent : Payloads
-        {
-            var subscription = Subscription.CreateFromAction(endpoint, action, priority, threadMode);
-            EventNode.AddSubscription(_rootNode, subscription);
-        }
-
-        public void Unregister<TEvent>(string endpoint, Action<TEvent> action) where TEvent : Payloads
-        {
-            var subscription = Subscription.CreateFromAction(endpoint, action);
-            EventNode.RemoveSubscription(_rootNode, subscription);
+            foreach (var subscription in subscriptions)
+            {
+                EventNode.RemoveSubscription(_rootNode, subscription);
+            }
         }
 
         public void Register<TEvent>(Action<TEvent> action, short priority = 0, ThreadMode threadMode = ThreadMode.Current)
@@ -99,13 +90,32 @@ namespace JamForge.Events
             Unregister(DefaultEndpoint, action);
         }
 
+        public void Register<TEvent>(string path, Action<TEvent> action, short priority = 0, ThreadMode threadMode = ThreadMode.Current)
+            where TEvent : Payloads
+        {
+            EnsurePathExists(path);
+            var subscription = Subscription.CreateFromAction(path, action, priority, threadMode);
+            EventNode.AddSubscription(_rootNode, subscription);
+        }
+
+        public void Unregister<TEvent>(string path, Action<TEvent> action) where TEvent : Payloads
+        {
+            var subscription = Subscription.CreateFromAction(path, action);
+            EventNode.RemoveSubscription(_rootNode, subscription);
+        }
+
         #endregion
 
         #region Trigger
 
-        public void Fire(string endpoint)
+        private void EnsurePathExists(string path)
         {
-            Fire(endpoint, Payloads.Empty);
+            _rootNode.EnsureEventNode(path);
+        }
+
+        public void Fire(string path)
+        {
+            Fire(path, Payloads.Empty);
         }
 
         public void Fire<TEventData>(TEventData payloads) where TEventData : Payloads
@@ -113,10 +123,11 @@ namespace JamForge.Events
             Fire(DefaultEndpoint, payloads);
         }
 
-        public void Fire<TEventData>(string endpoint, TEventData payloads) where TEventData : Payloads
+        public void Fire<TEventData>(string path, TEventData payloads) where TEventData : Payloads
         {
-            var eventNodes = _rootNode.GetEventNodes(endpoint);
-            var subscriptions = eventNodes.SelectMany(e => e.GetSubscriptions()).ToList();
+            EnsurePathExists(path);
+            var eventNodes = _rootNode.GetEventNodes(path);
+            var subscriptions = eventNodes.SelectMany(e => e.Subscriptions).ToList();
             subscriptions.Sort();
 
             foreach (var subscription in subscriptions) { FireEvent(subscription, payloads); }
@@ -138,9 +149,9 @@ namespace JamForge.Events
             CacheStickyEvents(endpoint, payloads);
         }
 
-        public async UniTask FireAsync(string endpoint)
+        public async UniTask FireAsync(string path)
         {
-            await FireAsync(endpoint, Payloads.Empty);
+            await FireAsync(path, Payloads.Empty);
         }
 
         public async UniTask FireAsync<TEventData>(TEventData payloads)
@@ -149,11 +160,12 @@ namespace JamForge.Events
             await FireAsync(DefaultEndpoint, payloads);
         }
 
-        public async UniTask FireAsync<TEventData>(string endpoint, TEventData payloads)
+        public async UniTask FireAsync<TEventData>(string path, TEventData payloads)
             where TEventData : Payloads
         {
-            var eventNodes = _rootNode.GetEventNodes(endpoint);
-            var subscriptions = eventNodes.SelectMany(e => e.GetSubscriptions()).ToList();
+            EnsurePathExists(path);
+            var eventNodes = _rootNode.GetEventNodes(path);
+            var subscriptions = eventNodes.SelectMany(e => e.Subscriptions).ToList();
             subscriptions.Sort();
 
             foreach (var subscription in subscriptions) { await TriggerEventAsync(subscription, payloads); }

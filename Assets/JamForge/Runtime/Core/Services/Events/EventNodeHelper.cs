@@ -1,49 +1,81 @@
-using System;
 using System.Collections.Generic;
 
 namespace JamForge.Events
 {
     public static class EventNodeHelper
     {
-        public static IEnumerable<EventNode> GetEventNodes(this EventNode rootNode, string targetEndpoint)
+        private const char Separator = '.';
+        private const string Wildcard = "*";
+
+        public static void EnsureEventNode(this EventNode rootNode, string path)
         {
-            if (string.IsNullOrEmpty(targetEndpoint)) { throw new Exception("Endpoint is not valid."); }
+            const int cursor = 0;
+            var routes = path.Split(Separator);
+            
+            EnsureEventNode(rootNode, cursor, routes);
+        }
 
-            EventNode[] ret = null;
+        public static IEnumerable<EventNode> GetEventNodes(this EventNode rootNode, string path)
+        {
+            const int cursor = 0;
+            var routes = path.Split(Separator);
+            var results = new List<EventNode>();
 
-            var cursor = rootNode;
-            var endpoints = targetEndpoint.Split('.');
+            GetEventNodes(rootNode, cursor, routes, results);
+            return results;
+        }
 
-            for (var i = 0; i < endpoints.Length; i++)
+        private static void GetEventNodes(EventNode rootNode, int cursor, IReadOnlyList<string> path, ICollection<EventNode> results)
+        {
+            if (cursor == path.Count)
             {
-                var endpoint = endpoints[i];
-                var lastElement = i == endpoints.Length - 1;
-                var wildcard = endpoint.Equals("*");
-
-                if (wildcard && !lastElement) { throw new Exception($"Endpoint is not valid: {targetEndpoint}"); }
-
-                if (lastElement && wildcard)
-                {
-                    var list = new List<EventNode>();
-                    AddChildren(cursor, list);
-                    ret = list.ToArray();
-                } else
-                {
-                    if (!cursor.Children.TryGetValue(endpoint, out var child))
-                    {
-                        child = new EventNode(endpoint);
-                        cursor.AddChild(child);
-                    }
-
-                    cursor = child;
-
-                    if (!lastElement) { continue; }
-
-                    ret = new[] {cursor};
-                }
+                results.Add(rootNode);
+                return;
             }
 
-            return ret;
+            var route = path[cursor];
+            var isWildcard = route.Equals(Wildcard);
+
+            if (isWildcard)
+            {
+                foreach (var child in rootNode.Children.Values)
+                {
+                    GetEventNodes(child, cursor + 1, path, results);
+                }
+            }
+            else
+            {
+                if (rootNode.Children.TryGetValue(route, out var child))
+                {
+                    GetEventNodes(child, cursor + 1, path, results);
+                }
+            }
+        }
+
+        private static void EnsureEventNode(EventNode rootNode, int cursor, IReadOnlyList<string> path)
+        {
+            if (cursor == path.Count) { return; }
+
+            var route = path[cursor];
+            var isWildcard = route.Equals(Wildcard);
+
+            if (isWildcard)
+            {
+                foreach (var child in rootNode.Children.Values)
+                {
+                    EnsureEventNode(child, cursor + 1, path);
+                }
+            }
+            else
+            {
+                if (!rootNode.Children.TryGetValue(route, out var child))
+                {
+                    child = new EventNode(route);
+                    rootNode.AddChild(child);
+                }
+
+                EnsureEventNode(child, cursor + 1, path);
+            }
         }
 
         private static void AddChildren(EventNode node, ICollection<EventNode> list)
