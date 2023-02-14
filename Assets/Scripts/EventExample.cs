@@ -29,16 +29,16 @@ public class EventExample : MonoBehaviour
     [Subscribe]
     private void OnClickEvent(Payloads payloads)
     {
-        Debug.Log("Event received!");
+        Jam.Logger.Debug("Event received!");
     }
 
     private void OnClickEvent2(Payloads payloads)
     {
-        Debug.Log("Event handler 2!");
+        Jam.Logger.Debug("Event handler 2!");
     }
 
     private void OnClickEvent3(Payloads payloads)
     {
-        Debug.Log("Event handler 3!");
+        Jam.Logger.Debug("Event handler 3!");
     }
 }

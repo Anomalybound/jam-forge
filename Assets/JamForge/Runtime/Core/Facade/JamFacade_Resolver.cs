@@ -8,6 +8,31 @@ namespace JamForge
 {
     public partial class Jam
     {
+        #region Resolver
+
+        [Inject]
+        private IObjectResolver _objectResolver;
+
+        private ResolverWrapper _resolverInstance;
+
+        private ResolverWrapper ResolverInstance
+        {
+            get
+            {
+                if (_resolverInstance != null)
+                {
+                    return _resolverInstance;
+                }
+
+                _resolverInstance = new ResolverWrapper(_objectResolver);
+                return _resolverInstance;
+            }
+        }
+
+        public static ResolverWrapper Resolver => Instance.ResolverInstance;
+
+        #endregion
+
         public class ResolverWrapper
         {
             private readonly IObjectResolver _resolver;

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace JamForge
 {
-    public static class DelegateHelper
+    public static class DelegateExtensions
     {
         #region Methods
 

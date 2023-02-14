@@ -1,4 +1,5 @@
 using JamForge.Events;
+using JamForge.Procedures;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -10,6 +11,11 @@ namespace JamForge
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Reset()
         {
+            if (_facadeScope)
+            {
+                Object.Destroy(_facadeScope.gameObject);
+            }
+
             _instance = null;
             _facadeScope = null;
         }
@@ -27,8 +33,19 @@ namespace JamForge
                     return _instance;
                 }
 
-                _facadeScope = LifetimeScope.Create(FacadeScopeConstruction);
-                _facadeScope.name = "JamForgeFacadeScope";
+                if (!_facadeScope)
+                {
+                    _facadeScope = LifetimeScope.Create(FacadeScopeConstruction);
+                    _facadeScope.hideFlags = HideFlags.HideInHierarchy;
+
+                    var mainRoot = new GameObject("JamForge Root");
+                    var versionControl = Resolver.Resolve<JFVersionControl>();
+                    var procedureManager = Resolver.Resolve<ProcedureManager>();
+                    
+                    versionControl.transform.SetParent(mainRoot.transform);
+                    procedureManager.transform.SetParent(mainRoot.transform);
+                }
+
                 _instance = _facadeScope.Container.Resolve<Jam>();
 
                 return _instance;
@@ -39,36 +56,16 @@ namespace JamForge
         {
             builder.Register<Jam>(Lifetime.Singleton);
 
-            Debug.Log($"Facade scope registered!");
+            builder.RegisterComponentOnNewGameObject<JFVersionControl>(Lifetime.Singleton);
+            builder.RegisterComponentOnNewGameObject<ProcedureManager>(Lifetime.Singleton);
         }
 
-        #region Services
+        #region Events
 
         [Inject]
         private IEventBrokerFacade _eventBroker;
 
-        [Inject]
-        private IObjectResolver _objectResolver;
-
-        private ResolverWrapper _resolverInstance;
-
-        private ResolverWrapper ResolverInstance
-        {
-            get
-            {
-                if (_resolverInstance != null)
-                {
-                    return _resolverInstance;
-                }
-
-                _resolverInstance = new ResolverWrapper(_objectResolver);
-                return _resolverInstance;
-            }
-        }
-
         public static IEventBrokerFacade Events => Instance._eventBroker;
-
-        public static ResolverWrapper Resolver => Instance.ResolverInstance;
 
         #endregion
     }
