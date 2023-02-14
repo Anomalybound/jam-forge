@@ -1,24 +1,25 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace JamForge.Events
 {
     public static class EventNodeHelper
     {
-        private const char Separator = '.';
         private const string Wildcard = "*";
+        private static readonly Regex SeparatorRegex = new(@"[\.\\\/]", RegexOptions.Compiled);
 
         public static void EnsureEventNode(this EventNode rootNode, string path)
         {
             const int cursor = 0;
-            var routes = path.Split(Separator);
-            
+            var routes = SeparatorRegex.Split(path);
+
             EnsureEventNode(rootNode, cursor, routes);
         }
 
         public static IEnumerable<EventNode> GetEventNodes(this EventNode rootNode, string path)
         {
             const int cursor = 0;
-            var routes = path.Split(Separator);
+            var routes = SeparatorRegex.Split(path);
             var results = new List<EventNode>();
 
             GetEventNodes(rootNode, cursor, routes, results);
