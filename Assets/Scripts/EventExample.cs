@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EventExample : MonoBehaviour
 {
+    public class TestPayload : Payloads { }
+
     private void Start()
     {
         Jam.Events.Register(this);
@@ -24,6 +26,12 @@ public class EventExample : MonoBehaviour
     public void OnClick()
     {
         Jam.Events.Fire(new Payloads());
+    }
+
+    [ContextMenu("Click2")]
+    public void OnClick2()
+    {
+        Jam.Events.Fire(new TestPayload());
     }
 
     [Subscribe]

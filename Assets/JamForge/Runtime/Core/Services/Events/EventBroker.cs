@@ -110,7 +110,7 @@ namespace JamForge.Events
 
         private void EnsurePathExists(string path)
         {
-            _rootNode.EnsureEventNode(path);
+            _rootNode.EnsureNodePath(path);
         }
 
         public void Fire(string path)
@@ -125,10 +125,10 @@ namespace JamForge.Events
 
         public void Fire<TEventData>(string path, TEventData payloads) where TEventData : Payloads
         {
+            var subscriptions = new List<Subscription>();
+            
             EnsurePathExists(path);
-            var eventNodes = _rootNode.GetEventNodes(path);
-            var subscriptions = eventNodes.SelectMany(e => e.Subscriptions).ToList();
-            subscriptions.Sort();
+            _rootNode.GetSubscriptions(path, subscriptions);
 
             foreach (var subscription in subscriptions) { FireEvent(subscription, payloads); }
         }
@@ -163,9 +163,10 @@ namespace JamForge.Events
         public async UniTask FireAsync<TEventData>(string path, TEventData payloads)
             where TEventData : Payloads
         {
+            var subscriptions = new List<Subscription>();
+            
             EnsurePathExists(path);
-            var eventNodes = _rootNode.GetEventNodes(path);
-            var subscriptions = eventNodes.SelectMany(e => e.Subscriptions).ToList();
+            _rootNode.GetSubscriptions(path, subscriptions);
             subscriptions.Sort();
 
             foreach (var subscription in subscriptions) { await TriggerEventAsync(subscription, payloads); }
