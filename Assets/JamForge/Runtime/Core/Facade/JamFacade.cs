@@ -38,12 +38,10 @@ namespace JamForge
                     _facadeScope = LifetimeScope.Create(FacadeScopeConstruction);
                     _facadeScope.hideFlags = HideFlags.HideInHierarchy;
 
-                    var mainRoot = new GameObject("JamForge Root");
-                    var versionControl = Resolver.Resolve<JFVersionControl>();
-                    var procedureManager = Resolver.Resolve<ProcedureManager>();
+                    var jfVersion = Resolver.Resolve<JFVersionControl>();
+                    Resolver.Resolve<ProcedureManager>();
                     
-                    versionControl.transform.SetParent(mainRoot.transform);
-                    procedureManager.transform.SetParent(mainRoot.transform);
+                    Logger.Debug($"JamForge initialized! Current version: {jfVersion.Version}".DyeCyan());
                 }
 
                 _instance = _facadeScope.Container.Resolve<Jam>();
@@ -55,8 +53,8 @@ namespace JamForge
         private static void FacadeScopeConstruction(IContainerBuilder builder)
         {
             builder.Register<Jam>(Lifetime.Singleton);
-
-            builder.RegisterComponentOnNewGameObject<JFVersionControl>(Lifetime.Singleton);
+            builder.Register<JFVersionControl>(Lifetime.Singleton);
+            
             builder.RegisterComponentOnNewGameObject<ProcedureManager>(Lifetime.Singleton);
         }
 

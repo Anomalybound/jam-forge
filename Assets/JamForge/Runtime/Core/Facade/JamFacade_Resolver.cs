@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -40,6 +41,39 @@ namespace JamForge
             public ResolverWrapper(IObjectResolver resolver)
             {
                 _resolver = resolver;
+            }
+
+            [UnityEngine.Scripting.Preserve]
+            public object Create(Type type)
+            {
+                var constructors = type.GetConstructors();
+                foreach (var constructor in constructors)
+                {
+                    var parameters = constructor.GetParameters();
+                    var parameterInstances = new object[parameters.Length];
+                    for (var i = 0; i < parameters.Length; i++)
+                    {
+                        var parameter = parameters[i];
+                        try
+                        {
+                            parameterInstances[i] = _resolver.Resolve(parameter.ParameterType);
+                        } catch (Exception)
+                        {
+                            // ignored
+                        }
+                    }
+                    return constructor.Invoke(parameterInstances);
+                }
+
+                return null;
+            }
+
+            [UnityEngine.Scripting.Preserve]
+            public T Create<T>() where T : class
+            {
+                var instance = Activator.CreateInstance<T>();
+                _resolver.Inject(instance);
+                return instance;
             }
 
             [UnityEngine.Scripting.Preserve]

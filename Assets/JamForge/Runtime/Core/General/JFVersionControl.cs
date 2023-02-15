@@ -1,15 +1,11 @@
-using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace JamForge
 {
-    public class JFVersionControl : MonoBehaviour
+    [Preserve]
+    public class JFVersionControl
     {
         // ReSharper disable once MemberCanBePrivate.Global
-        public const string Version = "0.0.1";
-
-        private void Start()
-        {
-            Jam.Logger.Debug($"JamForge initialized! Current version: {Version}".DyeCyan());
-        }
+        public string Version { get; } = "0.0.1";
     }
 }
