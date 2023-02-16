@@ -7,13 +7,6 @@
       "dependencies": {},
       "url": "https://package.openupm.com"
     },
-    "com.thermalbyte.hermit": {
-      "version": "https://github.com/Cushmily/Hermit.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "a1ffa196cef23a7e9fe975ec0663454b883dd098"
-    },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
       "depth": 1,

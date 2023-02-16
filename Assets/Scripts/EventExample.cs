@@ -10,7 +10,7 @@ public class EventExample : MonoBehaviour
     {
         Jam.Events.Register(this);
         Jam.Events.Register<Payloads>(OnClickEvent2);
-        Jam.Events.Register<Payloads>(EventBroker.DefaultEndpoint, OnClickEvent3);
+        Jam.Events.Register<Payloads>(EventBroker.DefaultPath, OnClickEvent3);
 
         OnClick();
     }
@@ -19,7 +19,7 @@ public class EventExample : MonoBehaviour
     {
         Jam.Events.Unregister(this);
         Jam.Events.Unregister<Payloads>(OnClickEvent2);
-        Jam.Events.Unregister<Payloads>(EventBroker.DefaultEndpoint, OnClickEvent3);
+        Jam.Events.Unregister<Payloads>(EventBroker.DefaultPath, OnClickEvent3);
     }
 
     [ContextMenu("Click")]

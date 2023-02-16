@@ -1,3 +1,4 @@
+using System;
 using JamForge.Events;
 using UnityEngine;
 using VContainer;
@@ -8,8 +9,8 @@ namespace JamForge
     [DefaultExecutionOrder(-10000)]
     public class JFCoreScope : LifetimeScope
     {
-        private static Jam.Log4NetWrapper LogWrapper => Jam.Log4NetWrapper.Current;
-        private static Jam.ILog Log => LogWrapper.GetLog(nameof(JFCoreScope));
+        private static Log4NetWrapper LogWrapper => Log4NetWrapper.Current;
+        private static ILog Log => LogWrapper.GetLog(nameof(JFCoreScope));
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -19,8 +20,15 @@ namespace JamForge
 
             // Log4Net
             builder.RegisterInstance(LogWrapper).AsImplementedInterfaces().AsSelf();
-            
+
             Log.Debug($"JamForge core services registered!");
+        }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        private static void Initialize()
+        {
+            var jfVersionControl = Jam.Resolver.Resolve<JFVersionControl>();
+            Jam.Logger.Debug($"JamForge initialized! Version: {jfVersionControl.Version}".DyeCyan());
         }
     }
 }

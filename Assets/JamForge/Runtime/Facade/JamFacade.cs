@@ -36,8 +36,6 @@ namespace JamForge
                 {
                     _facadeScope = LifetimeScope.Create(FacadeScopeConstruction);
                     _facadeScope.gameObject.hideFlags = HideFlags.HideInHierarchy;
-
-                    Resolver.Resolve<JFVersionControl>().PrintInitializationMessage();
                 }
 
                 _instance = _facadeScope.Container.Resolve<Jam>();
