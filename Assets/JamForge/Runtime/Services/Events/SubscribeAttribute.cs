@@ -6,7 +6,7 @@ namespace JamForge.Events
     [AttributeUsage(AttributeTargets.Method)]
     public sealed class SubscribeAttribute : PreserveAttribute
     {
-        public string Endpoint { get; set; } = EventBroker.DefaultEndpoint;
+        public string Path { get; set; } = EventBroker.DefaultPath;
 
         public ThreadMode Mode { get; set; } = ThreadMode.Main;
 

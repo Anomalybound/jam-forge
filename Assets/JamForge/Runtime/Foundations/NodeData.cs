@@ -5,7 +5,7 @@ namespace JamForge.Foundations
 {
     public abstract class NodeData<TData>
     {
-        public string Route { get; }
+        public string Path { get; }
 
         public TData Data { get; }
 
@@ -13,9 +13,9 @@ namespace JamForge.Foundations
 
         public Dictionary<string, NodeData<TData>> Children { get; } = new();
 
-        public NodeData(string route, TData data)
+        public NodeData(string path, TData data)
         {
-            Route = route;
+            Path = path;
             Data = data;
         }
 
@@ -28,7 +28,7 @@ namespace JamForge.Foundations
         {
             if (node == null) { throw new NullReferenceException(); }
 
-            if (Children.TryAdd(node.Route, node))
+            if (Children.TryAdd(node.Path, node))
             {
                 node.SetParent(this);
             }

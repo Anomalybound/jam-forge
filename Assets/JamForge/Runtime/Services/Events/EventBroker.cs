@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace JamForge.Events
 {
     public sealed class EventBroker : IEventBrokerFacade
     {
-        public const string DefaultEndpoint = "Default";
+        public const string DefaultPath = "Default";
 
         private const int MaxCallStack = 16;
 
@@ -50,7 +48,7 @@ namespace JamForge.Events
             var subscriptions = SubscriptionHelper.FindSubscriber(obj);
             foreach (var subscription in subscriptions)
             {
-                var path = subscription.Endpoint;
+                var path = subscription.Path;
                 if (_stickyEvents.TryGetValue(path, out var eventData))
                 {
                     FireEvent(subscription, eventData);
@@ -82,12 +80,12 @@ namespace JamForge.Events
         public void Register<TEvent>(Action<TEvent> action, short priority = 0, ThreadMode threadMode = ThreadMode.Current)
             where TEvent : Payloads
         {
-            Register(DefaultEndpoint, action, priority, threadMode);
+            Register(DefaultPath, action, priority, threadMode);
         }
 
         public void Unregister<TEvent>(Action<TEvent> action) where TEvent : Payloads
         {
-            Unregister(DefaultEndpoint, action);
+            Unregister(DefaultPath, action);
         }
 
         public void Register<TEvent>(string path, Action<TEvent> action, short priority = 0, ThreadMode threadMode = ThreadMode.Current)
@@ -120,7 +118,7 @@ namespace JamForge.Events
 
         public void Fire<TEventData>(TEventData payloads) where TEventData : Payloads
         {
-            Fire(DefaultEndpoint, payloads);
+            Fire(DefaultPath, payloads);
         }
 
         public void Fire<TEventData>(string path, TEventData payloads) where TEventData : Payloads
@@ -133,20 +131,20 @@ namespace JamForge.Events
             foreach (var subscription in subscriptions) { FireEvent(subscription, payloads); }
         }
 
-        public void FireSticky(string endpoint)
+        public void FireSticky(string path)
         {
-            FireSticky(endpoint, Payloads.Empty);
+            FireSticky(path, Payloads.Empty);
         }
 
         public void FireSticky<TEventData>(TEventData payloads) where TEventData : Payloads
         {
-            FireSticky(DefaultEndpoint, payloads);
+            FireSticky(DefaultPath, payloads);
         }
 
-        public void FireSticky<TEventData>(string endpoint, TEventData payloads) where TEventData : Payloads
+        public void FireSticky<TEventData>(string path, TEventData payloads) where TEventData : Payloads
         {
-            Fire(endpoint, payloads);
-            CacheStickyEvents(endpoint, payloads);
+            Fire(path, payloads);
+            CacheStickyEvents(path, payloads);
         }
 
         public async UniTask FireAsync(string path)
@@ -157,7 +155,7 @@ namespace JamForge.Events
         public async UniTask FireAsync<TEventData>(TEventData payloads)
             where TEventData : Payloads
         {
-            await FireAsync(DefaultEndpoint, payloads);
+            await FireAsync(DefaultPath, payloads);
         }
 
         public async UniTask FireAsync<TEventData>(string path, TEventData payloads)
@@ -176,12 +174,18 @@ namespace JamForge.Events
 
         #region Helpers
 
-        private void CacheStickyEvents(string endPoint, Payloads payload)
+        private void CacheStickyEvents(string path, Payloads payload)
         {
-            var nodes = endPoint.Split('.');
-            var lastElement = nodes[nodes.Length - 1];
-            if (lastElement.Equals("*")) { throw new Exception("Trigger sticky with wildcard endpoint is not supported."); }
-            else { _stickyEvents.TryAdd(endPoint, payload); }
+            var nodes = path.Split('.');
+            var lastElement = nodes[^1];
+            switch (lastElement)
+            {
+                case "*":
+                    throw new Exception("Trigger sticky with wildcard path is not supported.");
+                default:
+                    _stickyEvents.TryAdd(path, payload);
+                    break;
+            }
         }
 
         private bool IsMainThread()

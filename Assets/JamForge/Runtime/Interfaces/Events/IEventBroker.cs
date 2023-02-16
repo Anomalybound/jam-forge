@@ -38,12 +38,12 @@ namespace JamForge.Events
 
     public interface IStickyEventBroker
     {
-        void FireSticky(string endpoint);
+        void FireSticky(string path);
 
         void FireSticky<TEventData>(TEventData payloads)
             where TEventData : Payloads;
 
-        void FireSticky<TEventData>(string endpoint, TEventData payloads)
+        void FireSticky<TEventData>(string path, TEventData payloads)
             where TEventData : Payloads;
     }
 

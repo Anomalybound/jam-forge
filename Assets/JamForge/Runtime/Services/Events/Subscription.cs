@@ -1,12 +1,11 @@
 using System;
-using System.Linq;
 using System.Reflection;
 
 namespace JamForge.Events
 {
     public readonly struct Subscription : IComparable<Subscription>, IEquatable<Subscription>
     {
-        public string Endpoint { get; }
+        public string Path { get; }
 
         public short Priority { get; }
 
@@ -18,21 +17,21 @@ namespace JamForge.Events
 
         public Delegate MethodInvoker { get; }
 
-        public static Subscription CreateFromAction<TEventData>(string endpoint, Action<TEventData> action)
+        public static Subscription CreateFromAction<TEventData>(string path, Action<TEventData> action)
         {
-            return new Subscription(endpoint, 0, ThreadMode.Current, action.Method, action.Target);
+            return new Subscription(path, 0, ThreadMode.Current, action.Method, action.Target);
         }
 
-        public static Subscription CreateFromAction<TEventData>(string endpoint, Action<TEventData> action,
+        public static Subscription CreateFromAction<TEventData>(string path, Action<TEventData> action,
             short priority, ThreadMode threadMode)
         {
-            return new Subscription(endpoint, priority, threadMode, action.Method, action.Target);
+            return new Subscription(path, priority, threadMode, action.Method, action.Target);
         }
 
-        public Subscription(string endpoint, short priority, ThreadMode threadMode,
+        public Subscription(string path, short priority, ThreadMode threadMode,
             MethodInfo methodInfo, object target)
         {
-            Endpoint = endpoint;
+            Path = path;
             Priority = priority;
             ThreadMode = threadMode;
 
@@ -58,7 +57,7 @@ namespace JamForge.Events
 
         public bool Equals(Subscription other)
         {
-            return Endpoint == other.Endpoint && EventDataType == other.EventDataType && MethodName == other.MethodName;
+            return Path == other.Path && EventDataType == other.EventDataType && MethodName == other.MethodName;
         }
 
         public override bool Equals(object obj)
@@ -68,7 +67,7 @@ namespace JamForge.Events
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Endpoint, Priority, (int)ThreadMode, EventDataType, MethodName, MethodInvoker);
+            return HashCode.Combine(Path, Priority, (int)ThreadMode, EventDataType, MethodName, MethodInvoker);
         }
     }
 }

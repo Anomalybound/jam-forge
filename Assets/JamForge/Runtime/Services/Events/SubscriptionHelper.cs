@@ -37,11 +37,11 @@ namespace JamForge.Events
                 var subscribeAttribute = methodInfo.GetCustomAttribute<SubscribeAttribute>();
                 if (subscribeAttribute == null) { continue; }
 
-                var endpoint = subscribeAttribute.Endpoint;
+                var path = subscribeAttribute.Path;
                 var mode = subscribeAttribute.Mode;
                 var priority = subscribeAttribute.Priority;
 
-                var sub = new Subscription(endpoint, priority, mode, methodInfo, obj);
+                var sub = new Subscription(path, priority, mode, methodInfo, obj);
                 list.Add(sub);
             }
 

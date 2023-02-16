@@ -9,11 +9,11 @@ namespace JamForge.Events
     {
         public HashSet<Subscription> Subscriptions { get; private set; } = new();
 
-        public EventNode(string route) : base(route, route) { }
+        public EventNode(string path) : base(path, path) { }
 
         public void AddSubscription(Subscription subscription)
         {
-            if (string.IsNullOrEmpty(subscription.Endpoint) || string.IsNullOrEmpty(subscription.MethodName))
+            if (string.IsNullOrEmpty(subscription.Path) || string.IsNullOrEmpty(subscription.MethodName))
             {
                 throw new NullReferenceException();
             }
@@ -23,7 +23,7 @@ namespace JamForge.Events
 
         public void RemoveSubscription(Subscription subscription)
         {
-            if (string.IsNullOrEmpty(subscription.Endpoint) || string.IsNullOrEmpty(subscription.MethodName))
+            if (string.IsNullOrEmpty(subscription.Path) || string.IsNullOrEmpty(subscription.MethodName))
             {
                 throw new NullReferenceException();
             }
@@ -33,7 +33,7 @@ namespace JamForge.Events
 
         public static void AddSubscription(EventNode rootNode, Subscription subscription)
         {
-            var targetNodes = rootNode.GetNodes(subscription.Endpoint);
+            var targetNodes = rootNode.GetNodes(subscription.Path);
             foreach (var targetNode in targetNodes)
             {
                 var eventNode = (EventNode)targetNode;
@@ -43,7 +43,7 @@ namespace JamForge.Events
 
         public static void RemoveSubscription(EventNode rootNode, Subscription subscription)
         {
-            var targetNodes = rootNode.GetNodes(subscription.Endpoint);
+            var targetNodes = rootNode.GetNodes(subscription.Path);
             foreach (var targetNode in targetNodes)
             {
                 var eventNode = (EventNode)targetNode;
