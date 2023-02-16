@@ -9,7 +9,9 @@
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Ccore_005Cservices_005Cfsm_005Cunity/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Ccore_005Cservices_005Clog4net_005Cappendar/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Ccore_005Cservices_005Clog4net_005Ccore/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Ccore_005Cservices_005Cstatemachine_005Cbuilder/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Ccore_005Cservices_005Cstatemachine_005Cbuilder/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Ccore_005Cservices_005Cstatemachine_005Ccore/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Ccore_005Cservices_005Cstatemachine_005Cgeneral/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Ccore_005Cservices_005Cstatemachine_005Cprocedure/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Ccore_005Cservices_005Cstatemachine_005Cunity/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Ccore_005Cutilities/@EntryIndexedValue">True</s:Boolean>

@@ -1,33 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace JamForge.StateMachine.Core
+namespace JamForge.StateMachine
 {
-    public interface IState : IPureState
+    public interface IState
     {
+        #region Lifetime
+
+        void Enter();
+
+        void Update(float deltaTime);
+
+        void Exit();
+
+        float ElapsedTime { get; }
+
+        #endregion
+
         #region Properties
 
         bool Active { get; }
 
-        IState Parent { get; set; }
-
-        Dictionary<string, IState> Children { get; }
-
-        Stack<IState> ActiveChildrenStates { get; }
-
         #endregion
 
-        #region Operations
+        #region Events
 
-        void ClearStates();
+        event Action<IState> StateEnterEvent;
 
-        void ChangeState(string stateName);
+        event Action<IState> StateExitEvent;
 
-        void PushState(string stateName, bool allowDuplicated = false);
-
-        void PopState(bool backToRoot);
-
-        void TriggerEvent(string id, EventArgs eventArgs);
+        event Action<IState, float> StateUpdateEvent;
 
         #endregion
     }

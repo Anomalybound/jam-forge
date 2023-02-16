@@ -1,5 +1,4 @@
 using JamForge.Events;
-using JamForge.Procedures;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -39,9 +38,7 @@ namespace JamForge
                     _facadeScope.hideFlags = HideFlags.HideInHierarchy;
 
                     var jfVersion = Resolver.Resolve<JFVersionControl>();
-                    Resolver.Resolve<ProcedureManager>();
-                    
-                    Logger.Debug($"JamForge initialized! Current version: {jfVersion.Version}".DyeCyan());
+                    jfVersion.PrintInitializationMessage();
                 }
 
                 _instance = _facadeScope.Container.Resolve<Jam>();
@@ -54,8 +51,6 @@ namespace JamForge
         {
             builder.Register<Jam>(Lifetime.Singleton);
             builder.Register<JFVersionControl>(Lifetime.Singleton);
-            
-            builder.RegisterComponentOnNewGameObject<ProcedureManager>(Lifetime.Singleton);
         }
 
         #region Events

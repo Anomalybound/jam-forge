@@ -71,9 +71,7 @@ namespace JamForge
             [UnityEngine.Scripting.Preserve]
             public T Create<T>() where T : class
             {
-                var instance = Activator.CreateInstance<T>();
-                _resolver.Inject(instance);
-                return instance;
+                return (T)Create(typeof(T));
             }
 
             [UnityEngine.Scripting.Preserve]
