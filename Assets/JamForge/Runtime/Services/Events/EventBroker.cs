@@ -126,7 +126,7 @@ namespace JamForge.Events
         public void Fire<TEventData>(string path, TEventData payloads) where TEventData : Payloads
         {
             var subscriptions = new List<Subscription>();
-            
+
             EnsurePathExists(path);
             _rootNode.GetSubscriptions(path, subscriptions);
 
@@ -164,7 +164,7 @@ namespace JamForge.Events
             where TEventData : Payloads
         {
             var subscriptions = new List<Subscription>();
-            
+
             EnsurePathExists(path);
             _rootNode.GetSubscriptions(path, subscriptions);
             subscriptions.Sort();
@@ -199,9 +199,9 @@ namespace JamForge.Events
             var subEventType = subscription.EventDataType;
             var noParameters = subscription.EventDataType == null;
 
-            if (!noParameters && eventDataType != subscription.EventDataType)
+            if (!noParameters && !subscription.EventDataType.IsAssignableFrom(eventDataType))
             {
-                Debug.LogError($"Subscription[{methodName}]: [{subEventType}] is not match [{eventDataType}].");
+                Jam.Logger.Error($"[{methodName}]: [{subEventType}] is not match [{eventDataType}].");
                 return;
             }
 
@@ -221,7 +221,7 @@ namespace JamForge.Events
                 if (_callStack >= MaxCallStack)
                 {
                     _callStack = 0;
-                    throw new Exception($"Subscription[{methodName}]: Call stack overflow [Depth: {MaxCallStack}].");
+                    throw new Exception($"[{methodName}]: Call stack overflow [Depth: {MaxCallStack}].");
                 }
 
                 if (noParameters)
@@ -235,7 +235,7 @@ namespace JamForge.Events
                 _callStack--;
             } catch (Exception ex)
             {
-                throw new Exception($"Subscription[{methodName}]: {ex.Message}", ex);
+                throw new Exception($"[{methodName}]: {ex.Message}", ex);
             }
         }
 
@@ -247,9 +247,9 @@ namespace JamForge.Events
             var subEventType = subscription.EventDataType;
             var noParameters = subscription.EventDataType == null;
 
-            if (!noParameters && eventDataType != subscription.EventDataType)
+            if (!noParameters && !subscription.EventDataType.IsAssignableFrom(eventDataType))
             {
-                Debug.LogError($"Subscription[{methodName}]: [{subEventType}] is not match [{eventDataType}].");
+                Jam.Logger.Error($"[{methodName}]: [{subEventType}] is not match [{eventDataType}].");
                 return;
             }
 
