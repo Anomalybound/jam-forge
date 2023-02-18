@@ -2,9 +2,7 @@ using System;
 
 namespace JamForge.StateMachine
 {
-    public interface IStateMachineRunner<TIndex, TState>
-        where TState : IState
-        where TIndex : IEquatable<TIndex>, IComparable<TIndex>
+    public interface IStateMachineRunner<TIndex, TState> where TState : IState
     {
         #region Properties
 

@@ -5,9 +5,7 @@ using UnityEngine.Scripting;
 
 namespace JamForge.StateMachine
 {
-    public class Transition<TIndex, TState>
-        where TState : IState
-        where TIndex : IEquatable<TIndex>, IComparable<TIndex>
+    public class Transition<TIndex, TState> where TState : IState
     {
         public TIndex To { get; }
 
@@ -22,7 +20,7 @@ namespace JamForge.StateMachine
 
     [Preserve]
     public class StateMachineRunner<TIndex, TState> : IDisposable, IStateMachineRunner<TIndex, TState>
-        where TState : IState where TIndex : IEquatable<TIndex>, IComparable<TIndex>
+        where TState : IState
     {
         public TIndex ActiveStateIndex { get; private set; }
 
