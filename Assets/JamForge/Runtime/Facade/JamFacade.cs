@@ -1,4 +1,3 @@
-using JamForge.Events;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -49,14 +48,5 @@ namespace JamForge
             builder.Register<Jam>(Lifetime.Singleton);
             builder.Register<JFVersionControl>(Lifetime.Singleton);
         }
-
-        #region Events
-
-        [Inject]
-        private IEventBrokerFacade _eventBroker;
-
-        public static IEventBrokerFacade Events => Instance._eventBroker;
-
-        #endregion
     }
 }

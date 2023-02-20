@@ -2,9 +2,11 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using UnityEngine.Scripting;
 
 namespace JamForge.Events
 {
+    [Preserve]
     public sealed class EventBroker : IEventBrokerFacade
     {
         public const string DefaultPath = "Default";
