@@ -11,7 +11,13 @@ namespace JamForge.Store
         public int Count => _stores.Count;
 
         private readonly IObjectResolver _resolver;
-        private readonly Dictionary<string, DictionaryMemory> _stores;
+        private readonly Dictionary<string, DictionaryMemoryStore> _stores;
+
+        public InMemoryDictionaryStore(IObjectResolver resolver)
+        {
+            _resolver = resolver;
+            _stores = new Dictionary<string, DictionaryMemoryStore>();
+        }
 
         public IStore Get(string storeName)
         {
@@ -20,7 +26,7 @@ namespace JamForge.Store
                 return store;
             }
 
-            store = _resolver.Resolve<DictionaryMemory>();
+            store = _resolver.Resolve<DictionaryMemoryStore>();
             _stores[storeName] = store;
 
             return store;
@@ -33,19 +39,19 @@ namespace JamForge.Store
 
         public void Destroy(IStore store)
         {
-            if (store is not DictionaryMemory memory) { return; }
+            if (store is not DictionaryMemoryStore memory) { return; }
 
             _stores.Remove(memory.GetType().Name);
             memory.DeleteAll();
         }
 
         [UsedImplicitly]
-        private class DictionaryMemory : IStore
+        public class DictionaryMemoryStore : IStore
         {
             private readonly IBinarySerializer _binarySerializer;
             private readonly Dictionary<string, byte[]> _store;
 
-            public DictionaryMemory(IBinarySerializer binarySerializer)
+            public DictionaryMemoryStore(IBinarySerializer binarySerializer)
             {
                 _binarySerializer = binarySerializer;
                 _store = new Dictionary<string, byte[]>();

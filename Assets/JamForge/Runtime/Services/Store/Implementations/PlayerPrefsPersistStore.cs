@@ -48,7 +48,7 @@ namespace JamForge.Store
         }
 
         [UsedImplicitly]
-        private class PlayerPrefsPersistStore : IStore
+        public class PlayerPrefsPersistStore : IStore
         {
             private readonly IJsonSerializer _json;
 
@@ -67,6 +67,8 @@ namespace JamForge.Store
 
             private string ProcessKey(string key)
             {
+                if (key.Contains(StoreName)) { return key; }
+
                 if (_keyCaches.TryGetValue(key, out var cache))
                 {
                     return cache;

@@ -37,6 +37,8 @@ namespace JamForge
             // Store
             builder.Register<IPersistStoreVendor, PlayerPrefsStoreVendor>(Lifetime.Singleton);
             builder.Register<IMemoryStoreVendor, InMemoryDictionaryStore>(Lifetime.Singleton);
+            builder.Register<PlayerPrefsStoreVendor.PlayerPrefsPersistStore>(Lifetime.Transient);
+            builder.Register<InMemoryDictionaryStore.DictionaryMemoryStore>(Lifetime.Transient);
 
             JFLog.Debug($"JamForge core services registered!");
         }
