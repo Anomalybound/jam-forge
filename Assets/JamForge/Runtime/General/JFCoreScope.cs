@@ -1,6 +1,7 @@
 using JamForge.Events;
 using JamForge.Log4Net;
 using JamForge.Serialization;
+using JamForge.Store;
 using MessagePipe;
 using UnityEngine;
 using VContainer;
@@ -27,6 +28,10 @@ namespace JamForge
             // Serialization
             builder.Register<IJsonSerializer, CatJsonSerializer>(Lifetime.Singleton);
             builder.Register<IBinarySerializer, NaniBinarySerializer>(Lifetime.Singleton);
+            
+            // Store
+            builder.Register<IPersistStoreVendor, PlayerPrefsStoreVendor>(Lifetime.Singleton);
+            builder.Register<IMemoryStoreVendor, InMemoryDictionaryStore>(Lifetime.Singleton);
 
             JFLog.Debug($"JamForge core services registered!");
         }

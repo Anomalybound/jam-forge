@@ -1,4 +1,3 @@
-using System;
 using CatJson;
 using UnityEngine.Scripting;
 
@@ -7,24 +6,16 @@ namespace JamForge.Serialization
     [Preserve]
     public class CatJsonSerializer : IJsonSerializer
     {
-        public string To(JsonObject jsonObject)
+        public string To<T>(T obj, bool isFormat = false)
         {
-            return jsonObject.ToJson();
-        }
+            JsonParser.Default.IsFormat = isFormat;
 
-        public string To(object obj)
-        {
             return JsonParser.Default.ToJson(obj);
         }
 
         public T From<T>(string json)
         {
             return JsonParser.Default.ParseJson<T>(json);
-        }
-
-        public object From(string json, Type type)
-        {
-            return JsonParser.Default.ParseJson(json, type);
         }
     }
 }

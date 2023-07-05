@@ -6,7 +6,7 @@ namespace JamForge.Serialization
     [Preserve]
     public class NaniBinarySerializer : IBinarySerializer
     {
-        public byte[] To(object obj, bool isCompressed = false)
+        public byte[] To<T>(T obj, bool isCompressed = false)
         {
             return Serializer.Serialize(obj, isCompressed ? CompressOption.Zlib : CompressOption.NoCompression);
         }
