@@ -1,6 +1,7 @@
 using JamForge.Events;
 using JamForge.Log4Net;
 using JamForge.Serialization;
+using MessagePipe;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -16,6 +17,9 @@ namespace JamForge
             builder.RegisterComponentOnNewGameObject<MainThreadDispatcher>(Lifetime.Singleton).AsImplementedInterfaces();
             // Includes IEventBrokerFacade, IAsyncEventBroker, IStickyEventBroker, IEventBroker
             builder.Register<EventBroker>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            
+            // MessagePipe
+            builder.RegisterBuildCallback(c => GlobalMessagePipe.SetProvider(c.AsServiceProvider()));
 
             // Log4Net
             builder.Register<ILogWrapper, Log4NetWrapper>(Lifetime.Singleton);
