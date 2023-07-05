@@ -18,8 +18,13 @@ namespace JamForge
             builder.RegisterComponentOnNewGameObject<MainThreadDispatcher>(Lifetime.Singleton).AsImplementedInterfaces();
             // Includes IEventBrokerFacade, IAsyncEventBroker, IStickyEventBroker, IEventBroker
             builder.Register<EventBroker>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            
+
             // MessagePipe
+            builder.RegisterMessagePipe(cfg =>
+            {
+                cfg.RequestHandlerLifetime = InstanceLifetime.Singleton;
+                cfg.DefaultAsyncPublishStrategy = AsyncPublishStrategy.Parallel;
+            });
             builder.RegisterBuildCallback(c => GlobalMessagePipe.SetProvider(c.AsServiceProvider()));
 
             // Log4Net
@@ -28,7 +33,7 @@ namespace JamForge
             // Serialization
             builder.Register<IJsonSerializer, CatJsonSerializer>(Lifetime.Singleton);
             builder.Register<IBinarySerializer, NaniBinarySerializer>(Lifetime.Singleton);
-            
+
             // Store
             builder.Register<IPersistStoreVendor, PlayerPrefsStoreVendor>(Lifetime.Singleton);
             builder.Register<IMemoryStoreVendor, InMemoryDictionaryStore>(Lifetime.Singleton);
@@ -40,7 +45,7 @@ namespace JamForge
         private static void Initialize()
         {
             var jfVersionControl = Jam.Resolver.Resolve<JFVersionControl>();
-            JFLog.Debug($"JamForge initialized! Version: {jfVersionControl.Version}".DyeCyan());
+            JFLog.Debug($"JamForge initialized! Version: {JFVersionControl.Version}".DyeCyan());
         }
     }
 }
