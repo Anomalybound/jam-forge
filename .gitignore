@@ -67,3 +67,5 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 .DS_Store
+Packages/com.singularitygroup.hotreload
+

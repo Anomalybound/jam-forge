@@ -22,6 +22,7 @@ namespace JamForge
 
             // Serialization
             builder.Register<IJsonSerializer, CatJsonSerializer>(Lifetime.Singleton);
+            builder.Register<IBinarySerializer, NaniBinarySerializer>(Lifetime.Singleton);
 
             JFLog.Debug($"JamForge core services registered!");
         }
