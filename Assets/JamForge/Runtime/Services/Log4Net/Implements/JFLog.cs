@@ -11,7 +11,7 @@ namespace JamForge.Log4Net
     public static class JFLog
     {
         private const string Log4NetConfig = "Log4NetConfig";
-        
+
         static JFLog()
         {
             InitializeLog4NetConfig();
@@ -49,55 +49,65 @@ namespace JamForge.Log4Net
             return log;
         }
 
+        [HideInCallstack]
         public static void Debug(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0)
         {
             GetLogger(callerName, callerLine).Debug(message);
         }
 
+        [HideInCallstack]
         public static void Debug(object message, Exception exception, [CallerMemberName] string callerName = null,
             [CallerLineNumber] int callerLine = 0)
         {
             GetLogger(callerName, callerLine).Debug(message, exception);
         }
 
+        [HideInCallstack]
         public static void Info(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0)
         {
             GetLogger(callerName, callerLine).Info(message);
         }
 
+        [HideInCallstack]
         public static void Info(object message, Exception exception, [CallerMemberName] string callerName = null,
             [CallerLineNumber] int callerLine = 0)
         {
             GetLogger(callerName, callerLine).Info(message, exception);
         }
 
+        [HideInCallstack]
         public static void Warn(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0)
         {
             GetLogger(callerName, callerLine).Warn(message);
         }
 
+        [HideInCallstack]
         public static void Warn(object message, Exception exception, [CallerMemberName] string callerName = null,
             [CallerLineNumber] int callerLine = 0)
         {
             GetLogger(callerName, callerLine).Warn(message, exception);
         }
 
+        [HideInCallstack]
         public static void Error(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0)
         {
             GetLogger(callerName, callerLine).Error(message);
         }
 
+        [HideInCallstack]
         public static void Error(object message, Exception exception, [CallerMemberName] string callerName = null,
             [CallerLineNumber] int callerLine = 0)
         {
             GetLogger(callerName, callerLine).Error(message, exception);
         }
 
+        [HideInCallstack]
         public static void Fatal(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0)
         {
             GetLogger(callerName, callerLine).Fatal(message);
         }
 
+        [HideInCallstack]
         public static void Fatal(object message, Exception exception, [CallerMemberName] string callerName = null,
             [CallerLineNumber] int callerLine = 0)
         {

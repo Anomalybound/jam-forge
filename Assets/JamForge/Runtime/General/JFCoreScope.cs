@@ -12,6 +12,8 @@ namespace JamForge
     [DefaultExecutionOrder(-10000)]
     public class JFCoreScope : LifetimeScope
     {
+        [SerializeField] private JamForgeConfig config;
+        
         protected override void Configure(IContainerBuilder builder)
         {
             // Event broker
@@ -39,14 +41,26 @@ namespace JamForge
             builder.Register<IMemoryStoreVendor, InMemoryDictionaryStore>(Lifetime.Singleton);
             builder.Register<PlayerPrefsStoreVendor.PlayerPrefsPersistStore>(Lifetime.Transient);
             builder.Register<InMemoryDictionaryStore.DictionaryMemoryStore>(Lifetime.Transient);
+            builder.Register<IJamStores, JamStores>(Lifetime.Singleton);
+            
+            // Message
+            builder.Register<IJamMessages, JamMessages>(Lifetime.Singleton);
+            
+            // Resolver
+            builder.Register<IJamResolver, JamResolver>(Lifetime.Singleton);
 
-            JFLog.Debug($"JamForge core services registered!");
+            // Config
+            if (config)
+            {
+                builder.RegisterInstance(config);
+            }
+
+            JFLog.Info($"JamForge core services registered!");
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void Initialize()
         {
-            var jfVersionControl = Jam.Resolver.Resolve<JFVersionControl>();
             JFLog.Debug($"JamForge initialized! Version: {JFVersionControl.Version}".DyeCyan());
         }
     }

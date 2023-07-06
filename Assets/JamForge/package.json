@@ -3,10 +3,11 @@
   "displayName": "JamForge Framework",
   "version": "1.0.0",
   "unity": "2022.2",
-  "description": "JamForge is a framework for creating games in Unity. It is designed to be used in game jams, but can be used for any project.",
-  "type": "tool",
+  "description": "JamForge is a game development framework for Unity that prioritizes usability over performance. While it is specifically designed to excel in game jam environments, it is equally suitable for any game development project.",
+  "type": "module",
   "dependencies": {
     "jp.hadashikick.vcontainer": "1.12.0",
     "com.cysharp.unitask": "2.3.3"
   }
 }
+  
