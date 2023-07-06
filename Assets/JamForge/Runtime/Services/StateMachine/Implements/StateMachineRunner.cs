@@ -19,8 +19,7 @@ namespace JamForge.StateMachine
     }
 
     [Preserve]
-    public class StateMachineRunner<TIndex, TState> : IDisposable, IStateMachineRunner<TIndex, TState>
-        where TState : IState
+    public class StateMachineRunner<TIndex, TState> : IDisposable, IStateMachineRunner<TIndex, TState> where TState : IState
     {
         public TIndex ActiveStateIndex { get; private set; }
 
