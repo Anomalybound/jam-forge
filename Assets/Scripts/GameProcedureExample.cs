@@ -15,7 +15,7 @@ public class InitProcedure : ProcedureBase
         if (ElapsedTime >= 2f)
         {
             Jam.Logger.D($"Switching to main procedure.");
-            GameProcedures.SwitchState("MainProcedure");
+            GameProcedures.SwitchProcedure("MainProcedure");
         }
     }
 

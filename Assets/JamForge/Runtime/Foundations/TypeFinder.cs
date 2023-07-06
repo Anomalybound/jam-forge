@@ -8,15 +8,23 @@ namespace JamForge
     {
         private static readonly Dictionary<string, Type> TypeCaches = new();
 
-        private static readonly List<Assembly> Assemblies = new();
+        private static readonly List<Assembly> UnderlyingAssemblies = new();
+
+        private static List<Assembly> Assemblies
+        {
+            get
+            {
+                if (UnderlyingAssemblies.Count == 0)
+                {
+                    UnderlyingAssemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies());
+                }
+
+                return UnderlyingAssemblies;
+            }
+        }
 
         private static Type GetTypeInAllAssemblies(string typeName)
         {
-            if (Assemblies.Count == 0)
-            {
-                Assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies());
-            }
-
             for (var i = 0; i < Assemblies.Count; i++)
             {
                 var assembly = Assemblies[i];
@@ -56,6 +64,26 @@ namespace JamForge
 
             // Not a valid type
             return null;
+        }
+
+        public static List<Type> GetSubclassesOf(Type baseType, bool includeAbstract = false)
+        {
+            var types = new List<Type>();
+            for (var i = 0; i < Assemblies.Count; i++)
+            {
+                var assembly = Assemblies[i];
+                var assemblyTypes = assembly.GetTypes();
+                for (var j = 0; j < assemblyTypes.Length; j++)
+                {
+                    var type = assemblyTypes[j];
+                    if (type.IsSubclassOf(baseType) && (includeAbstract || !type.IsAbstract))
+                    {
+                        types.Add(type);
+                    }
+                }
+            }
+
+            return types;
         }
     }
 }

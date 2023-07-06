@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-namespace JamForge.Logs
+namespace JamForge
 {
     public sealed class LogInterceptor
     {

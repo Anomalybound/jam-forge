@@ -7,6 +7,8 @@ namespace JamForge.StateMachine
         #region Properties
 
         TIndex ActiveStateIndex { get; }
+        
+        TState ActiveState { get; }
 
         #endregion
 
