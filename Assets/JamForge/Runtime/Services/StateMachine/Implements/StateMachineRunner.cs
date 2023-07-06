@@ -19,7 +19,9 @@ namespace JamForge.StateMachine
     }
 
     [Preserve]
-    public class StateMachineRunner<TIndex, TState> : IDisposable, IStateMachineRunner<TIndex, TState> where TState : IState
+    public class StateMachineRunner<TIndex, TState> : IDisposable, IStateMachineRunner<TIndex, TState>
+        where TState : IState
+        where TIndex : IEquatable<TIndex>
     {
         public TIndex ActiveStateIndex { get; private set; }
 
@@ -27,7 +29,7 @@ namespace JamForge.StateMachine
 
         public TState ActiveState => States[ActiveStateIndex];
 
-        public TState PreviousState => States[PreviousStateIndex];
+        public TState PreviousState => PreviousStateIndex == null ? default : States[PreviousStateIndex];
 
         public Dictionary<TIndex, TState> States { get; } = new();
 
@@ -77,20 +79,20 @@ namespace JamForge.StateMachine
         {
             if (States.TryAdd(index, state)) { return; }
 
-            Jam.Logger.Error($"State machine already contains state with index {index}");
+            Jam.Logger.E($"State machine already contains state with index {index}");
         }
 
         public void AddTransition(TIndex from, TIndex to, Func<TState, bool> condition)
         {
             if (!States.TryGetValue(from, out _))
             {
-                Jam.Logger.Error($"State machine does not contain state with index {from}");
+                Jam.Logger.E($"State machine does not contain state with index {from}");
                 return;
             }
 
             if (!States.TryGetValue(to, out _))
             {
-                Jam.Logger.Error($"State machine does not contain state with index {to}");
+                Jam.Logger.E($"State machine does not contain state with index {to}");
                 return;
             }
 
@@ -105,7 +107,7 @@ namespace JamForge.StateMachine
 
         public void SwitchState(TIndex index)
         {
-            if (ActiveStateIndex.Equals(index)) { return; }
+            if (ActiveStateIndex != null && ActiveStateIndex.Equals(index)) { return; }
 
             ChangeToState(index);
         }
@@ -115,7 +117,7 @@ namespace JamForge.StateMachine
         {
             PreviousStateIndex = ActiveStateIndex;
 
-            PreviousState.Exit();
+            PreviousState?.Exit();
             StateExitEvent?.Invoke(PreviousStateIndex, PreviousState);
 
             ActiveStateIndex = index;

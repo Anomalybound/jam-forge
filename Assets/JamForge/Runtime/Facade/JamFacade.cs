@@ -46,7 +46,6 @@ namespace JamForge
         private static void FacadeScopeConstruction(IContainerBuilder builder)
         {
             builder.Register<Jam>(Lifetime.Singleton);
-            builder.Register<JFVersionControl>(Lifetime.Singleton);
         }
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JamForge.Foundations;
 
 namespace JamForge.Events
 {

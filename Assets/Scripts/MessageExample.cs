@@ -19,7 +19,7 @@ namespace DefaultNamespace
 
         public void OnFloatChanged(float value)
         {
-            Jam.Logger.Debug($"Received float: {value}");
+            Jam.Logger.D($"Received float: {value}");
         }
     }
 }

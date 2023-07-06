@@ -12,24 +12,24 @@ namespace JamForge.Log4Net
 
     public interface ILogger
     {
-        void Debug(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
+        void D(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
 
-        void Debug(object message, Exception exception, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
+        void D(object message, Exception exception, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
 
-        void Info(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
+        void I(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
 
-        void Info(object message, Exception exception, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
+        void I(object message, Exception exception, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
 
-        void Warn(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
+        void W(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
 
-        void Warn(object message, Exception exception, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
+        void W(object message, Exception exception, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
 
-        void Error(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
+        void E(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
 
-        void Error(object message, Exception exception, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
+        void E(object message, Exception exception, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
 
-        void Fatal(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
+        void F(object message, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
 
-        void Fatal(object message, Exception exception, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
+        void F(object message, Exception exception, [CallerMemberName] string callerName = null, [CallerLineNumber] int callerLine = 0);
     }
 }

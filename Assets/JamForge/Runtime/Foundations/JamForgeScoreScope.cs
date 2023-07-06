@@ -10,10 +10,10 @@ using VContainer.Unity;
 namespace JamForge
 {
     [DefaultExecutionOrder(-10000)]
-    public class JFCoreScope : LifetimeScope
+    public class JamForgeScoreScope : LifetimeScope
     {
-        [SerializeField] private JamForgeConfig config;
-        
+        [SerializeField] private TextAsset packageJson;
+
         protected override void Configure(IContainerBuilder builder)
         {
             // Event broker
@@ -42,26 +42,31 @@ namespace JamForge
             builder.Register<PlayerPrefsStoreVendor.PlayerPrefsPersistStore>(Lifetime.Transient);
             builder.Register<InMemoryDictionaryStore.DictionaryMemoryStore>(Lifetime.Transient);
             builder.Register<IJamStores, JamStores>(Lifetime.Singleton);
-            
+
             // Message
             builder.Register<IJamMessages, JamMessages>(Lifetime.Singleton);
-            
+
             // Resolver
             builder.Register<IJamResolver, JamResolver>(Lifetime.Singleton);
 
             // Config
-            if (config)
-            {
-                builder.RegisterInstance(config);
-            }
+            var config = Resources.Load<JamForgeConfig>(nameof(JamForgeConfig));
+            if (config) { builder.RegisterInstance(config); }
+
+            // Package info
+            var packageInfo = JsonUtility.FromJson<PackageInfo>(packageJson.text);
+            if (packageInfo != null) { builder.RegisterInstance(packageInfo); }
 
             JFLog.Info($"JamForge core services registered!");
+
+            builder.RegisterBuildCallback(OnCoreServicesRegistered);
         }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static void Initialize()
+        private void OnCoreServicesRegistered(IObjectResolver resolver)
         {
-            JFLog.Debug($"JamForge initialized! Version: {JFVersionControl.Version}".DyeCyan());
+            var packageInfo = resolver.Resolve<PackageInfo>();
+            var version = packageInfo.Version;
+            JFLog.Debug($"JamForge initialized! Version: {version}".DyeCyan());
         }
     }
 }

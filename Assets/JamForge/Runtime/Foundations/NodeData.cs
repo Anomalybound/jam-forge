@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace JamForge.Foundations
+namespace JamForge
 {
     public abstract class NodeData<TData>
     {
