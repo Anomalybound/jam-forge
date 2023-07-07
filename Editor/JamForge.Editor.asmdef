@@ -1,0 +1,16 @@
+{
+    "name": "JamForge.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:fe070fb05f09c458cbca6257b1a68646"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
