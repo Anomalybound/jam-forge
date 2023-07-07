@@ -57,6 +57,9 @@ namespace JamForge
             var packageInfo = JsonUtility.FromJson<PackageInfo>(packageJson.text);
             if (packageInfo != null) { builder.RegisterInstance(packageInfo); }
 
+            // Services
+            builder.Register<IJamServices, JamServices>(Lifetime.Singleton);
+
             JFLog.Info($"JamForge core services registered!");
 
             builder.RegisterBuildCallback(OnCoreServicesRegistered);

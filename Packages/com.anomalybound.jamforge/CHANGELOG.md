@@ -9,3 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [0.1.1] - 2023-07-07
 ### Changed
 - Update README.md
+
+## [0.1.2] - 2023-07-08
+### Added
+- Add JamServices to allow user for easy register and unregister services
