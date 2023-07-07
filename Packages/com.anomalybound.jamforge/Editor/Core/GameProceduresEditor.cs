@@ -18,7 +18,6 @@ namespace JamForge
         private GUIContent _editLabel;
 
         private GameProcedures _gameProcedures;
-        private List<string> _proceduresArray;
         private bool _listExpanding = true;
 
         private string DefaultProcedure
@@ -33,37 +32,30 @@ namespace JamForge
 
         private List<string> GetProcedures()
         {
-            if (_proceduresArray != null) { return _proceduresArray; }
-
-            _proceduresArray = new List<string>();
+            var proceduresArray = new List<string>();
 
             for (var i = 0; i < _procedures.arraySize; i++)
             {
-                _proceduresArray.Add(_procedures.GetArrayElementAtIndex(i).stringValue);
+                proceduresArray.Add(_procedures.GetArrayElementAtIndex(i).stringValue);
             }
 
-            return _proceduresArray;
+            return proceduresArray;
         }
 
         private void SetProcedure(int index, string value)
         {
             _procedures.GetArrayElementAtIndex(index).stringValue = value;
-            _proceduresArray[index] = value;
         }
 
         private void AddProcedure(string procedure)
         {
-            _proceduresArray.Add(procedure);
             _procedures.arraySize++;
             _procedures.GetArrayElementAtIndex(_procedures.arraySize - 1).stringValue = procedure;
-            serializedObject.ApplyModifiedProperties();
         }
 
         private void RemoveProcedure(int index)
         {
-            _proceduresArray.RemoveAt(index);
             _procedures.DeleteArrayElementAtIndex(index);
-            serializedObject.ApplyModifiedProperties();
         }
 
         private void OnEnable()
@@ -127,6 +119,8 @@ namespace JamForge
 
             _procedureList.DoLayoutList();
 
+            serializedObject.ApplyModifiedProperties();
+
             GUI.enabled = true;
         }
 
@@ -146,7 +140,7 @@ namespace JamForge
                 EditorGUILayout.PrefixLabel("Current Procedure");
                 EditorGUILayout.LabelField(_gameProcedures.CurrentProcedure.GetType().Name, EditorStyles.boldLabel);
             }
-            
+
             EditorGUILayout.Separator();
 
             using var indentLevelScope = new EditorGUI.IndentLevelScope(1);
@@ -221,6 +215,8 @@ namespace JamForge
                     ScriptFinder.OpenScript(procedures[index]);
                 }
             }
+
+            serializedObject.ApplyModifiedProperties();
         }
 
         private void OnAddDropdownCallback(Rect rect)

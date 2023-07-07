@@ -48,5 +48,4 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
-  config: {fileID: 0}
-  packageJson: {fileID: 4900000, guid: 60c641920a6364e059eb51acc2acaa2e, type: 3}
+  packageJson: {fileID: 8385607101436470782, guid: 60c641920a6364e059eb51acc2acaa2e, type: 3}

@@ -11,7 +11,7 @@ namespace JamForge
         private static readonly Dictionary<string, string> Scripts = new();
 
         static ScriptFinder()
-        {
+        {       
             Scripts.Clear();
             var paths = AssetDatabase.GetAllAssetPaths();
             for (var i = 0; i < paths.Length; i++)
