@@ -1,5 +1,16 @@
 {
   "dependencies": {
+    "com.anomalybound.jamforge": {
+      "version": "file:com.anomalybound.jamforge",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "jp.hadashikick.vcontainer": "1.13.2",
+        "com.cysharp.messagepipe": "1.7.4",
+        "com.cysharp.messagepipe.vcontainer": "1.7.4",
+        "com.cysharp.unitask": "2.3.3"
+      }
+    },
     "com.cysharp.messagepipe": {
       "version": "1.7.4",
       "depth": 0,
@@ -20,15 +31,6 @@
       "source": "registry",
       "dependencies": {},
       "url": "https://package.openupm.com"
-    },
-    "com.singularitygroup.hotreload": {
-      "version": "file:com.singularitygroup.hotreload",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0",
-        "com.unity.modules.unitywebrequest": "1.0.0"
-      }
     },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
