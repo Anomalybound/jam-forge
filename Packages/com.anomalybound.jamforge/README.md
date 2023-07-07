@@ -1,4 +1,4 @@
-# 🚀 JamForge
+# 🚀 JamForge 
 
 ## 📝 Overview
 
@@ -18,35 +18,35 @@ The main way we recommend to install JamForge for Unity is via the Package Manag
 
 ### Dependency Injection
 
-*Detailed description of the Dependency Injection module, its purpose, how it works, and how it interacts with other modules.*
+*Coming soon...*
 
 ### EventBus
 
-*Detailed description of the EventBus module, its purpose, how it works, and how it interacts with other modules.*
+*Coming soon...*
 
 ### Logging
 
-*Detailed description of the Logging module, its purpose, how it works, and how it interacts with other modules.*
+*Coming soon...*
 
 ### Binary Serialization
 
-*Detailed description of the Binary Serialization module, its purpose, how it works, and how it interacts with other modules.*
+*Coming soon...*
 
 ### Json Serialization
 
-*Detailed description of the Json Serialization module, its purpose, how it works, and how it interacts with other modules.*
+*Coming soon...*
 
 ### FiniteStateMachine
 
-*Detailed description of the FiniteStateMachine module, its purpose, how it works, and how it interacts with other modules.*
+*Coming soon...*
 
 ### MessagePipe
 
-*Detailed description of the MessagePipe module, its purpose, how it works, and how it interacts with other modules.*
+*Coming soon...*
 
-### Store (Storage)
+### Store
 
-*Detailed description of the Store (Storage) module, its purpose, how it works, and how it interacts with other modules.*
+*Coming soon...*
 
 ## 📒 Dependencies
 
