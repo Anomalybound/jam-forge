@@ -1,12 +1,20 @@
-using JamForge;
-using UnityEngine;
+﻿using JamForge;
+using MessagePipe;
 using UnityEngine.Scripting;
 
 [Preserve]
 public class InitProcedure : ProcedureBase
 {
+    private IPublisher<GameStartMessage> GameStartPublisher { get; }
+
+    public InitProcedure(IPublisher<GameStartMessage> gameStartPublisher)
+    {
+        GameStartPublisher = gameStartPublisher;
+    }
+
     protected override void OnEnter()
     {
+        GameStartPublisher.Publish(new GameStartMessage("Game Sample"));
         Jam.Logger.D($"Initial procedure entered.");
     }
 
@@ -24,19 +32,3 @@ public class InitProcedure : ProcedureBase
         Jam.Logger.D($"Initial procedure exited.");
     }
 }
-
-[Preserve]
-public class MainProcedure : ProcedureBase
-{
-    protected override void OnEnter()
-    {
-        Jam.Logger.D($"Main procedure entered.");
-    }
-
-    protected override void OnExit()
-    {
-        Jam.Logger.D($"Main procedure exited.");
-    }
-}
-
-public class GameProcedureExample : MonoBehaviour { }

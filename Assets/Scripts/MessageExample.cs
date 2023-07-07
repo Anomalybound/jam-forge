@@ -8,18 +8,16 @@ namespace DefaultNamespace
     {
         private void Start()
         {
-            Jam.Messages.RegisterFor<float>();
+            Jam.Messages.RegisterFor<GameStartMessage>();
             Jam.Messages.Build();
 
-            var subscriber = Jam.Resolver.Resolve<ISubscriber<float>>();
-            subscriber.Subscribe(OnFloatChanged);
-            var publisher = Jam.Resolver.Resolve<IPublisher<float>>();
-            publisher.Publish(50);
+            var subscriber = Jam.Resolver.Resolve<ISubscriber<GameStartMessage>>();
+            subscriber.Subscribe(OnGameStarted);
         }
 
-        public void OnFloatChanged(float value)
+        public void OnGameStarted(GameStartMessage value)
         {
-            Jam.Logger.D($"Received float: {value}");
+            Jam.Logger.D($"Received GameStartMessage: {value.GameName}");
         }
     }
 }
