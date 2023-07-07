@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [0.1.0] - 2023-07-7
+## [0.1.0] - 2023-07-07
 ### Initialize
 - First release of this framework
+
+## [0.1.1] - 2023-07-07
+### Changed
+- Update README.md
