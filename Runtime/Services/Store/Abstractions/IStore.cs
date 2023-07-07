@@ -2,6 +2,8 @@ namespace JamForge.Store
 {
     public interface IStore
     {
+        public string StoreName { get; }
+
         public void Set<T>(string key, T value);
 
         public T Get<T>(string key);

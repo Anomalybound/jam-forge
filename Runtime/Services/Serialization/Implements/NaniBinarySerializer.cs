@@ -4,6 +4,15 @@ using UnityEngine.Scripting;
 namespace JamForge.Serialization
 {
     [Preserve]
+    public class JFSerializeAttribute : NinoSerializeAttribute { }
+
+    [Preserve]
+    public class JFMemberAttribute : NinoMemberAttribute
+    {
+        public JFMemberAttribute(ushort index) : base(index) { }
+    }
+
+    [Preserve]
     public class NaniBinarySerializer : IBinarySerializer
     {
         public byte[] To<T>(T obj, bool isCompressed = false)
