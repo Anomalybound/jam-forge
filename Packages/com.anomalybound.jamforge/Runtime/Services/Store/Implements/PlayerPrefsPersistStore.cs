@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using JamForge.Serialization;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -9,6 +10,8 @@ namespace JamForge.Store
     [UnityEngine.Scripting.Preserve]
     public class PlayerPrefsStoreVendor : IPersistStoreVendor
     {
+        private const string StoreNamesKey = "JamForge.Stores.StoreNames";
+
         public int Count => _stores.Count;
 
         private readonly IObjectResolver _resolver;
@@ -18,6 +21,21 @@ namespace JamForge.Store
         {
             _resolver = resolver;
             _stores = new Dictionary<string, PlayerPrefsPersistStore>();
+
+            var storeNames = PlayerPrefs.GetString(StoreNamesKey, "");
+            if (string.IsNullOrEmpty(storeNames))
+            {
+                return;
+            }
+
+            var storeList = storeNames.Split(",");
+
+            foreach (var storeName in storeList)
+            {
+                var storeInstance = resolver.Resolve<PlayerPrefsPersistStore>();
+                storeInstance.StoreName = storeName;
+                _stores[storeName] = storeInstance;
+            }
         }
 
         public IStore Get(string storeName)
@@ -31,6 +49,20 @@ namespace JamForge.Store
             store.StoreName = storeName;
             _stores[storeName] = store;
 
+            var storeNames = PlayerPrefs.GetString(StoreNamesKey, "");
+            if (string.IsNullOrEmpty(storeNames))
+            {
+                return store;
+            }
+
+            var storeList = storeNames.Split(",");
+            var newArray = new string[storeList.Length + 1];
+            storeList.CopyTo(newArray, 0);
+            newArray[storeList.Length] = storeName;
+
+            PlayerPrefs.SetString(StoreNamesKey, string.Join(",", newArray));
+            PlayerPrefs.Save();
+
             return store;
         }
 
@@ -39,12 +71,23 @@ namespace JamForge.Store
             return _stores.ContainsKey(storeName);
         }
 
-        public void Destroy(IStore store)
+        public void Destroy(string storeName)
         {
-            if (store is not PlayerPrefsPersistStore persistStore) { return; }
+            if (!_stores.TryGetValue(storeName, out var store)) { return; }
 
-            _stores.Remove(persistStore.StoreName);
-            persistStore.DeleteAll();
+            store.DeleteAll();
+            _stores.Remove(storeName);
+
+            var storeNames = PlayerPrefs.GetString(StoreNamesKey, "");
+            if (string.IsNullOrEmpty(storeNames))
+            {
+                return;
+            }
+
+            var storeList = storeNames.Split(",").ToList();
+            storeList.Remove(storeName);
+            PlayerPrefs.SetString(StoreNamesKey, string.Join(",", storeList));
+            PlayerPrefs.Save();
         }
 
         [UsedImplicitly]

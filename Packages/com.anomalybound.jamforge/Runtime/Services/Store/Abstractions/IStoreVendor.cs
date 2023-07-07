@@ -12,6 +12,6 @@ namespace JamForge.Store
 
         bool Has(string storeName);
 
-        void Destroy(IStore store);
+        void Destroy(string storeName);
     }
 }

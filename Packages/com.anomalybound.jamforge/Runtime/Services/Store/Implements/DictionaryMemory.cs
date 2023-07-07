@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using JamForge.Serialization;
 using JetBrains.Annotations;
@@ -37,36 +39,41 @@ namespace JamForge.Store
             return _stores.ContainsKey(storeName);
         }
 
-        public void Destroy(IStore store)
+        public void Destroy(string storeName)
         {
-            if (store is not DictionaryMemoryStore memory) { return; }
+            if (!_stores.TryGetValue(storeName, out var store)) { return; }
 
-            _stores.Remove(memory.GetType().Name);
-            memory.DeleteAll();
+            store.DeleteAll();
+            _stores.Remove(storeName);
         }
 
         [UsedImplicitly]
         public class DictionaryMemoryStore : IStore
         {
-            private readonly IBinarySerializer _binarySerializer;
-            private readonly Dictionary<string, byte[]> _store;
+            public string StoreName { get; set; }
+            
+            private readonly List<IDictionary> _dictionaries;
+            private readonly Dictionary<Type, IDictionary> _typedDictionaries;
+            // private readonly Dictionary<string, byte[]> _store;
 
-            public DictionaryMemoryStore(IBinarySerializer binarySerializer)
+            public DictionaryMemoryStore()
             {
-                _binarySerializer = binarySerializer;
-                _store = new Dictionary<string, byte[]>();
+                _dictionaries = new();
+                _typedDictionaries = new();
             }
 
             public void Set<T>(string key, T value)
             {
-                _store[key] = _binarySerializer.To(value);
+                var typedDictionary = GetOrCreateDictionary<T>();
+                typedDictionary[key] = value;
             }
 
             public T Get<T>(string key)
             {
-                if (_store.TryGetValue(key, out var bytes))
+                var typedDictionary = GetOrCreateDictionary<T>();
+                if (typedDictionary.TryGetValue(key, out var value))
                 {
-                    return _binarySerializer.From<T>(bytes);
+                    return value;
                 }
 
                 throw new KeyNotFoundException($"Key {key} not found");
@@ -74,14 +81,15 @@ namespace JamForge.Store
 
             public bool Has<T>(string key)
             {
-                return _store.ContainsKey(key);
+                var typedDictionary = GetOrCreateDictionary<T>();
+                return typedDictionary.ContainsKey(key);
             }
 
             public bool TryGet<T>(string key, out T value)
             {
-                if (_store.TryGetValue(key, out var bytes))
+                var typedDictionary = GetOrCreateDictionary<T>();
+                if (typedDictionary.TryGetValue(key, out value))
                 {
-                    value = _binarySerializer.From<T>(bytes);
                     return true;
                 }
 
@@ -91,12 +99,31 @@ namespace JamForge.Store
 
             public bool Delete<T>(string key)
             {
-                return _store.Remove(key);
+                var typedDictionary = GetOrCreateDictionary<T>();
+                return typedDictionary.Remove(key);
             }
 
             public void DeleteAll()
             {
-                _store.Clear();
+                foreach (var dictionary in _dictionaries)
+                {
+                    dictionary.Clear();
+                }
+            }
+
+            private Dictionary<string, T> GetOrCreateDictionary<T>()
+            {
+                var type = typeof(T);
+                if (_typedDictionaries.TryGetValue(type, out var dictionary))
+                {
+                    return dictionary as Dictionary<string, T>;
+                }
+
+                dictionary = new Dictionary<string, T>();
+                _typedDictionaries[type] = dictionary;
+                _dictionaries.Add(dictionary);
+
+                return (Dictionary<string, T>)dictionary;
             }
         }
     }
