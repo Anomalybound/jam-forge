@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using JamForge.Log4Net;
 using UnityEngine;
 
-namespace JamForge
+namespace JamForge.Log4Net
 {
     // ReSharper disable once ClassNeverInstantiated.Global
     public sealed class Log4NetWrapper : ILogWrapper

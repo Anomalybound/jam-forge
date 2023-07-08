@@ -1,4 +1,8 @@
-# 🚀 JamForge 
+# 🚀 JamForge
+
+![GitHub last commit](http://img.shields.io/github/last-commit/anomalybound/jamforge)
+![GitHub package.json version](http://img.shields.io/github/package-json/v/anomalybound/jamforge/upm)
+[![openupm](https://img.shields.io/npm/v/com.anomalybound.jamforge?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.anomalybound.jamforge/)
 
 ## 📝 Overview
 

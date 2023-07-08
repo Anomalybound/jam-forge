@@ -4,12 +4,12 @@ using UnityEngine.Scripting;
 namespace JamForge.Serialization
 {
     [Preserve]
-    public class JFSerializeAttribute : NinoSerializeAttribute { }
+    public class JamSerializeAttribute : NinoSerializeAttribute { }
 
     [Preserve]
-    public class JFMemberAttribute : NinoMemberAttribute
+    public class JamMemberAttribute : NinoMemberAttribute
     {
-        public JFMemberAttribute(ushort index) : base(index) { }
+        public JamMemberAttribute(ushort index) : base(index) { }
     }
 
     [Preserve]

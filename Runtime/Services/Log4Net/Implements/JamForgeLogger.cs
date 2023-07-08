@@ -1,9 +1,8 @@
 ﻿using System;
 using log4net.Core;
 using UnityEngine;
-using ILogger = log4net.Core.ILogger;
 
-namespace JamForge
+namespace JamForge.Log4Net
 {
     public readonly struct JamForgeLogger : ILog
     {
@@ -14,7 +13,7 @@ namespace JamForge
             _logImpl = logImpl;
         }
 
-        ILogger ILoggerWrapper.Logger => _logImpl.Logger;
+        log4net.Core.ILogger ILoggerWrapper.Logger => _logImpl.Logger;
 
         [HideInCallstack]
         public void Debug(object message)

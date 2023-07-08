@@ -1,5 +1,6 @@
 using JamForge.Events;
 using JamForge.Log4Net;
+using JamForge.Resolver;
 using JamForge.Serialization;
 using JamForge.Store;
 using MessagePipe;
@@ -10,7 +11,7 @@ using VContainer.Unity;
 namespace JamForge
 {
     [DefaultExecutionOrder(-10000)]
-    public class JamForgeScoreScope : LifetimeScope
+    public class JamForgeCoreScope : LifetimeScope
     {
         [SerializeField] private TextAsset packageJson;
 
@@ -43,12 +44,6 @@ namespace JamForge
             builder.Register<InMemoryDictionaryStore.DictionaryMemoryStore>(Lifetime.Transient);
             builder.Register<IJamStores, JamStores>(Lifetime.Singleton);
 
-            // Message
-            builder.Register<IJamMessages, JamMessages>(Lifetime.Singleton);
-
-            // Resolver
-            builder.Register<IJamResolver, JamResolver>(Lifetime.Singleton);
-
             // Config
             var config = Resources.Load<JamForgeConfig>(nameof(JamForgeConfig));
             if (config) { builder.RegisterInstance(config); }
@@ -57,15 +52,15 @@ namespace JamForge
             var packageInfo = JsonUtility.FromJson<PackageInfo>(packageJson.text);
             if (packageInfo != null) { builder.RegisterInstance(packageInfo); }
 
-            // Services
-            builder.Register<IJamServices, JamServices>(Lifetime.Singleton);
+            // Resolver
+            builder.Register<IJamResolver, JamResolver>(Lifetime.Scoped);
 
             JFLog.Info($"JamForge core services registered!");
 
             builder.RegisterBuildCallback(OnCoreServicesRegistered);
         }
 
-        private void OnCoreServicesRegistered(IObjectResolver resolver)
+        private static void OnCoreServicesRegistered(IObjectResolver resolver)
         {
             var packageInfo = resolver.Resolve<PackageInfo>();
             var version = packageInfo.Version;

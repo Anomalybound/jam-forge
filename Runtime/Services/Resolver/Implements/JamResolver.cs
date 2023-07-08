@@ -4,7 +4,7 @@ using VContainer;
 using VContainer.Unity;
 using Object = UnityEngine.Object;
 
-namespace JamForge
+namespace JamForge.Resolver
 {
     public class JamResolver : IJamResolver
     {
