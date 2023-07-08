@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JamForge.StateMachine;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -29,16 +30,22 @@ namespace JamForge
 
             for (var i = 0; i < procedureTypes.Count; i++)
             {
-                var procedureType = TypeFinder.Get(procedureTypes[i]);
-                if (procedureType == null) { continue; }
+                try
+                {
+                    var procedureType = TypeFinder.Get(procedureTypes[i]);
+                    if (procedureType == null) { continue; }
 
-                if (Jam.Resolver.Create(procedureType) is not ProcedureBase procedure) { continue; }
+                    if (Jam.Resolver.Create(procedureType) is not ProcedureBase procedure) { continue; }
 
-                procedure.GameProcedures = this;
+                    procedure.GameProcedures = this;
 
-                var procedureName = procedureType.Name;
-                StateMachineRunner.AddState(procedureName, procedure);
-                Procedures.Add(procedureName, procedure);
+                    var procedureName = procedureType.Name;
+                    StateMachineRunner.AddState(procedureName, procedure);
+                    Procedures.Add(procedureName, procedure);
+                } catch (Exception e)
+                {
+                    Jam.Logger.E(e.Message, e);
+                }
             }
 
             if (string.IsNullOrEmpty(defaultProcedure))

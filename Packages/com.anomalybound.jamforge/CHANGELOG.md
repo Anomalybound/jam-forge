@@ -13,3 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [0.1.2] - 2023-07-08
 ### Added
 - Add JamServices to allow user for easy register and unregister services
+
+## [0.1.3] - 2023-07-08
+### Changed
+- Update README.md
+- Introduce JamInstaller for services injection 

@@ -1,6 +1,8 @@
+using JamForge.Resolver;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using Object = UnityEngine.Object;
 
 namespace JamForge
 {
@@ -34,6 +36,7 @@ namespace JamForge
                 if (!_facadeScope)
                 {
                     _facadeScope = LifetimeScope.Create(FacadeScopeConstruction);
+                    _facadeScope.name = "JamFacadeScope";
                     _facadeScope.gameObject.hideFlags = HideFlags.HideInHierarchy;
                 }
 
@@ -43,9 +46,23 @@ namespace JamForge
             }
         }
 
+        #region Resolver
+
         private static void FacadeScopeConstruction(IContainerBuilder builder)
         {
             builder.Register<Jam>(Lifetime.Singleton);
         }
+
+        [Inject]
+        private IJamResolver _resolver;
+
+        public static IJamResolver Resolver => Instance._resolver;
+
+        internal static void OverrideResolver(IJamResolver resolver)
+        {
+            Instance._resolver = resolver;
+        }
+
+        #endregion
     }
 }

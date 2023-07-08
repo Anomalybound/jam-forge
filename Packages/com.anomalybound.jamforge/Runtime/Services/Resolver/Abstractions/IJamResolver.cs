@@ -1,14 +1,11 @@
 using System;
 using UnityEngine;
-using VContainer.Unity;
 using Object = UnityEngine.Object;
 
-namespace JamForge
+namespace JamForge.Resolver
 {
     public interface IJamResolver
     {
-        public void EnqueueScope(LifetimeScope scope);
-
         public object Create(Type type);
 
         public T Create<T>() where T : class;
