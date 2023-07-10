@@ -61,8 +61,7 @@ JamForge depends on the following libraries:
 - [UniTask](https://github.com/Cysharp/UniTask)
 - [Nino](https://github.com/JasonXuDeveloper/Nino)
 - [CatJson](https://github.com/CatImmortal/CatJson)
-- [Log4Net](https://github.com/apache/logging-log4net)
 
 ## 🚀 License
 
-JamForge is released under the [MIT License](https://opensource.org/licenses/MIT).
+JamForge is released unde   r the [MIT License](https://opensource.org/licenses/MIT).
