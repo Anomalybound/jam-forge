@@ -1,5 +1,7 @@
+using System;
+using System.Collections.Generic;
 using JamForge.Events;
-using JamForge.Log4Net;
+using JamForge.Logging;
 using JamForge.Resolver;
 using JamForge.Serialization;
 using JamForge.Store;
@@ -7,6 +9,7 @@ using MessagePipe;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using ILogger = JamForge.Logging.ILogger;
 
 namespace JamForge
 {
@@ -14,6 +17,8 @@ namespace JamForge
     public class JamForgeCoreScope : LifetimeScope
     {
         [SerializeField] private TextAsset packageJson;
+
+        private static JamForgeConfig GetConfig() => JamForgeConfig.Load();
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -29,9 +34,6 @@ namespace JamForge
                 cfg.DefaultAsyncPublishStrategy = AsyncPublishStrategy.Parallel;
             });
             builder.RegisterBuildCallback(c => GlobalMessagePipe.SetProvider(c.AsServiceProvider()));
-
-            // Log4Net
-            builder.Register<ILogWrapper, Log4NetWrapper>(Lifetime.Singleton);
 
             // Serialization
             builder.Register<IJsonSerializer, CatJsonSerializer>(Lifetime.Singleton);
@@ -52,10 +54,13 @@ namespace JamForge
             var packageInfo = JsonUtility.FromJson<PackageInfo>(packageJson.text);
             if (packageInfo != null) { builder.RegisterInstance(packageInfo); }
 
+            // Logging
+            AssembleLogging(builder);
+
             // Resolver
             builder.Register<IJamResolver, JamResolver>(Lifetime.Scoped);
 
-            JFLog.Info($"JamForge core services registered!");
+            // JFLog.Info($"JamForge core services registered!");
 
             builder.RegisterBuildCallback(OnCoreServicesRegistered);
         }
@@ -64,7 +69,53 @@ namespace JamForge
         {
             var packageInfo = resolver.Resolve<PackageInfo>();
             var version = packageInfo.Version;
-            JFLog.Debug($"JamForge initialized! Version: {version}".DyeCyan());
+            InternalLog.D($"JamForge initialized! Version: {version}".DyeCyan());
+        }
+
+        private static void AssembleLogging(IContainerBuilder builder)
+        {
+            var jamLogManager = new JamLogManager();
+            var formatters = new List<ILogFormatter> { new StandardLogFormatter() };
+            var unityLogAppender = new UnityLogAppender(formatters);
+            var config = GetConfig();
+            // TODO: Read from separated log config later
+            if (config)
+            {
+                if (config.TimestampFormatted)
+                {
+                    formatters.Add(new TimestampLogFormatter());
+                }
+
+                if (config.AdditionalFormatters is { Length: > 0 })
+                {
+                    var formatterTypes = TypeFinder.GetSubclassesOf(typeof(ILogFormatter));
+                    for (var i = 0; i < config.AdditionalFormatters.Length; i++)
+                    {
+                        var formatterName = config.AdditionalFormatters[i];
+                        var formatterType = formatterTypes.Find(t => t.Name == formatterName);
+                        var formatterInstance = (ILogFormatter)Activator.CreateInstance(formatterType);
+                        if (formatterInstance == null)
+                        {
+                            throw new Exception($"Could not create instance of formatter type {formatterName}");
+                        }
+                        formatters.Add(formatterInstance);
+                    }
+                }
+
+                if (config.PersistLogs)
+                {
+                    var logFileName = $"Logs/{DateTime.Now:yyyyMMddHHmmss}.log";
+                    var fileLogAppender = new UnityFileWriterAppender(logFileName, formatters);
+                    jamLogManager.AddAppender(fileLogAppender.WriteLine);
+                }
+            }
+            ;
+            jamLogManager.AddAppender(unityLogAppender.WriteLine);
+            var jamLogger = jamLogManager.GetLogger("JamForge");
+            InternalLog.Logger = jamLogger;
+
+            builder.RegisterInstance(jamLogger);
+            builder.RegisterInstance(jamLogManager).AsImplementedInterfaces();
         }
     }
 }

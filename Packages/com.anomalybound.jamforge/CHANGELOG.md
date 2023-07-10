@@ -17,4 +17,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [0.1.3] - 2023-07-08
 ### Changed
 - Update README.md
-- Introduce JamInstaller for services injection 
+- Introduce JamInstaller for services injection
+
+## [0.1.4] - 2023-07-11
+### Changed
+- Replace Log4Net with self-implemented logger

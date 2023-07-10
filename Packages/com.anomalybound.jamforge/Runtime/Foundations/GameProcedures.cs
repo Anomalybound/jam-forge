@@ -44,7 +44,7 @@ namespace JamForge
                     Procedures.Add(procedureName, procedure);
                 } catch (Exception e)
                 {
-                    Jam.Logger.E(e.Message, e);
+                    InternalLog.E(e.Message);
                 }
             }
 
