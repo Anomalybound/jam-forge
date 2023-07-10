@@ -207,7 +207,7 @@ namespace JamForge.Events
 
             if (!noParameters && !subscription.EventDataType.IsAssignableFrom(eventDataType))
             {
-                Jam.Logger.E($"[{methodName}]: [{subEventType}] is not match [{eventDataType}].");
+                InternalLog.E($"[{methodName}]: [{subEventType}] is not match [{eventDataType}].");
                 return;
             }
 
@@ -255,7 +255,7 @@ namespace JamForge.Events
 
             if (!noParameters && !subscription.EventDataType.IsAssignableFrom(eventDataType))
             {
-                Jam.Logger.E($"[{methodName}]: [{subEventType}] is not match [{eventDataType}].");
+                InternalLog.E($"[{methodName}]: [{subEventType}] is not match [{eventDataType}].");
                 return;
             }
 
