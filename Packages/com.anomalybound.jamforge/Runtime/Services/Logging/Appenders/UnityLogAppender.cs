@@ -11,20 +11,20 @@ namespace JamForge.Logging
 #if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
 #endif
-        protected override void WriteFormattedLine(JamLogger logger, JamLogLevel logLevel, string message)
+        protected override void WriteFormattedLine(Logger logger, LogLevel logLevel, string message)
         {
             switch (logLevel)
             {
-                case JamLogLevel.Trace:
-                case JamLogLevel.Debug:
-                case JamLogLevel.Info:
+                case LogLevel.Trace:
+                case LogLevel.Debug:
+                case LogLevel.Info:
                     Debug.Log(message);
                     return;
-                case JamLogLevel.Warn:
+                case LogLevel.Warn:
                     Debug.LogWarning(message);
                     break;
-                case JamLogLevel.Error:
-                case JamLogLevel.Fatal:
+                case LogLevel.Error:
+                case LogLevel.Fatal:
                     Debug.LogError(message);
                     break;
                 default: throw new ArgumentOutOfRangeException(nameof(logLevel), logLevel, null);

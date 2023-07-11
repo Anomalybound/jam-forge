@@ -5,9 +5,9 @@ using UnityEngine.Scripting;
 namespace JamForge.Logging
 {
     [Preserve]
-    public class JamLogManager : ILogManager
+    public class LogManager : ILogManager
     {
-        public JamLogLevel GlobalLogLevel
+        public LogLevel GlobalLogLevel
         {
             get => _globalLogLevel;
             set
@@ -17,12 +17,12 @@ namespace JamForge.Logging
             }
         }
 
-        private readonly Dictionary<string, JamLogger> _loggers = new();
+        private readonly Dictionary<string, Logger> _loggers = new();
 
-        private JamLogLevel _globalLogLevel;
+        private LogLevel _globalLogLevel;
         private LogDelegate _appenders;
 
-        public void SetGlobalLogLevel(JamLogLevel logLevel)
+        public void SetGlobalLogLevel(LogLevel logLevel)
         {
             _globalLogLevel = logLevel;
             foreach (var logger in _loggers.Values)
@@ -57,7 +57,7 @@ namespace JamForge.Logging
         {
             if (_loggers.TryGetValue(name, out var logger)) { return logger; }
 
-            logger = new JamLogger
+            logger = new Logger
             {
                 Name = name,
                 LogLevel = _globalLogLevel

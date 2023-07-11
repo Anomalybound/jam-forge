@@ -14,7 +14,7 @@ namespace JamForge.Logging
             _filePath = Path.Combine(Application.persistentDataPath, filePath);
         }
 
-        protected override void WriteFormattedLine(JamLogger logger, JamLogLevel logLevel, string message)
+        protected override void WriteFormattedLine(Logger logger, LogLevel logLevel, string message)
         {
             lock (_lock)
             {

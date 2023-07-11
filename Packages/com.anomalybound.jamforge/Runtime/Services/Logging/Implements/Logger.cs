@@ -5,48 +5,48 @@ using UnityEngine.Scripting;
 namespace JamForge.Logging
 {
     [Preserve]
-    public class JamLogger : ILogger
+    public class Logger : ILogger
     {
         public event LogDelegate LogDelegate;
 
         public string Name { get; internal set; }
 
-        public JamLogLevel LogLevel { get; internal set; }
+        public LogLevel LogLevel { get; internal set; }
 
-        public JamLogger()
+        public Logger()
         {
-            LogLevel = JamLogLevel.Debug;
+            LogLevel = LogLevel.Debug;
         }
 
 #if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
 #endif
-        public void T(string message) => Log(JamLogLevel.Trace, message);
+        public void T(string message) => Log(LogLevel.Trace, message);
 
 #if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
 #endif
-        public void D(string message) => Log(JamLogLevel.Debug, message);
+        public void D(string message) => Log(LogLevel.Debug, message);
 
 #if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
 #endif
-        public void I(string message) => Log(JamLogLevel.Info, message);
+        public void I(string message) => Log(LogLevel.Info, message);
 
 #if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
 #endif
-        public void W(string message) => Log(JamLogLevel.Warn, message);
+        public void W(string message) => Log(LogLevel.Warn, message);
 
 #if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
 #endif
-        public void E(string message) => Log(JamLogLevel.Error, message);
+        public void E(string message) => Log(LogLevel.Error, message);
 
 #if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
 #endif
-        public void F(string message) => Log(JamLogLevel.Fatal, message);
+        public void F(string message) => Log(LogLevel.Fatal, message);
 
         public void Assert(bool condition, string message)
         {
@@ -62,7 +62,7 @@ namespace JamForge.Logging
 #if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
 #endif
-        internal void Log(JamLogLevel logLvl, string message)
+        internal void Log(LogLevel logLvl, string message)
         {
             if (logLvl >= LogLevel)
             {
