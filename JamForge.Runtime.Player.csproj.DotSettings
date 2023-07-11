@@ -25,4 +25,6 @@
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Cservices_005Cstore_005Cabstractions/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Cservices_005Cstore_005Cimplementations/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Cservices_005Cstore/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Cservices_005Cstore_005Cimplements/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cjamforge_005Cruntime_005Cservices_005Cstore_005Cimplements/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=packages_005Ccom_002Eanomalybound_002Ejamforge_005Cruntime_005Cservices_005Caudio_005Cabstractions/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=packages_005Ccom_002Eanomalybound_002Ejamforge_005Cruntime_005Cservices_005Caudio_005Cimplements/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
