@@ -4,10 +4,10 @@ using Random = UnityEngine.Random;
 
 namespace JamForge.Audio
 {
-    public enum LoopType
+    public enum SelectType
     {
+        Random,
         RoundRobin,
-        Random
     }
 
     [CreateAssetMenu(fileName = "New AudioDefine", menuName = "JamForge/Create AudioDefine")]
@@ -18,12 +18,12 @@ namespace JamForge.Audio
 
         [Header("Audio Settings")]
         [SerializeField] private bool loop;
+        [SerializeField] private SelectType selectType;
+        [SerializeField] private float crossFade = 0.1f;
+        
+        [Header("Audio Overrides")]
         [SerializeField] private bool overrideVolume;
         [SerializeField] private bool overridePitch;
-        [SerializeField] private LoopType loopType;
-
-        [Header("Audio Values")]
-        [SerializeField] private float crossFade = 0.1f;
         [SerializeField] private float volume = 1f;
         [SerializeField] private float pitchMin = 1f;
         [SerializeField] private float pitchMax = 1f;
@@ -41,12 +41,12 @@ namespace JamForge.Audio
         {
             if (clips.Length == 0) { return null; }
 
-            switch (loopType)
+            switch (selectType)
             {
-                case LoopType.RoundRobin:
+                case SelectType.RoundRobin:
                     ClipIndex = (ClipIndex + 1) % clips.Length;
                     break;
-                case LoopType.Random:
+                case SelectType.Random:
                     ClipIndex = Random.Range(0, clips.Length);
                     break;
                 default: throw new ArgumentOutOfRangeException();
