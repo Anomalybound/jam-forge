@@ -8,6 +8,6 @@ namespace JamForge
         [Inject]
         private IAudioController _audioController;
         
-        public static IAudioController Audios => Instance._audioController;
+        public static IAudioController Audio => Instance._audioController;
     }
 }
