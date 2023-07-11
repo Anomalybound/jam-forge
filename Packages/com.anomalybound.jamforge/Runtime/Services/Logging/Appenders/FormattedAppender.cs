@@ -11,8 +11,9 @@ namespace JamForge.Logging
         {
             _formatters = formatters;
         }
-
+#if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
+#endif
         public void WriteLine(JamLogger logger, JamLogLevel logLevel, string message)
         {
             for (var i = 0; i < _formatters.Count; i++)

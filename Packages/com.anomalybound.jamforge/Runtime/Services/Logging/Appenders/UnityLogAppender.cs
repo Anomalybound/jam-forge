@@ -8,7 +8,9 @@ namespace JamForge.Logging
     {
         public UnityLogAppender(List<ILogFormatter> formatters) : base(formatters) { }
 
+#if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
+#endif
         protected override void WriteFormattedLine(JamLogger logger, JamLogLevel logLevel, string message)
         {
             switch (logLevel)

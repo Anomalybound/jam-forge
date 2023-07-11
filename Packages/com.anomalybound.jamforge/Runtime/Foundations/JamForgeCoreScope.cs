@@ -9,7 +9,6 @@ using MessagePipe;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
-using ILogger = JamForge.Logging.ILogger;
 
 namespace JamForge
 {
