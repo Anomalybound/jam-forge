@@ -16,28 +16,22 @@ namespace JamForge.Logging
 
         public StandardLogFormatter(string format = "[{1}] {0}: {2}") => _format = format;
         
-        public static string GetColoredLevel(JamLogLevel logLevel)
+        public static string GetColoredLevel(LogLevel logLevel)
         {
-            switch (logLevel)
+            var logLevelString = logLevel.ToString();
+            return logLevel switch
             {
-                case JamLogLevel.Trace:
-                    return logLevel.ToString().Colorize(TraceColor);
-                case JamLogLevel.Debug:
-                    return logLevel.ToString().Colorize(DebugColor);
-                case JamLogLevel.Info:
-                    return logLevel.ToString().Colorize(InfoColor);
-                case JamLogLevel.Warn:
-                    return logLevel.ToString().Colorize(WarnColor);
-                case JamLogLevel.Error:
-                    return logLevel.ToString().Colorize(ErrorColor);
-                case JamLogLevel.Fatal:
-                    return logLevel.ToString().Colorize(FatalColor);
-                default:
-                    return logLevel.ToString();
-            }
+                LogLevel.Trace => logLevelString.Colorize(TraceColor),
+                LogLevel.Debug => logLevelString.Colorize(DebugColor),
+                LogLevel.Info => logLevelString.Colorize(InfoColor),
+                LogLevel.Warn => logLevelString.Colorize(WarnColor),
+                LogLevel.Error => logLevelString.Colorize(ErrorColor),
+                LogLevel.Fatal => logLevelString.Colorize(FatalColor),
+                _ => logLevelString
+            };
         }
 
-        public string FormatMessage(JamLogger logger, JamLogLevel logLevel, string message)
+        public string FormatMessage(Logger logger, LogLevel logLevel, string message)
         {
             return string.Format(_format, logger.Name, GetColoredLevel(logLevel), message);
         }

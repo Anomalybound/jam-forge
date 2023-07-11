@@ -73,7 +73,7 @@ namespace JamForge
 
         private static void AssembleLogging(IContainerBuilder builder)
         {
-            var jamLogManager = new JamLogManager();
+            var jamLogManager = new LogManager();
             var formatters = new List<ILogFormatter> { new StandardLogFormatter() };
             var unityLogAppender = new UnityLogAppender(formatters);
             var config = GetConfig();
