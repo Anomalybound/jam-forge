@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JamForge.Audio;
 using JamForge.Events;
 using JamForge.Logging;
 using JamForge.Resolver;
@@ -58,8 +59,11 @@ namespace JamForge
 
             // Resolver
             builder.Register<IJamResolver, JamResolver>(Lifetime.Scoped);
+            
+            // Audios
+            builder.RegisterEntryPoint<AudioController>();
 
-            // JFLog.Info($"JamForge core services registered!");
+            InternalLog.I($"JamForge core services registered!");
 
             builder.RegisterBuildCallback(OnCoreServicesRegistered);
         }
