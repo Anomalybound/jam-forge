@@ -2,11 +2,12 @@
 {
     public interface ILogger
     {
-        void T(string message);
-        void D(string message);
-        void I(string message);
-        void W(string message);
-        void E(string message);
-        void F(string message);
+        void Assert(bool condition, string message);
+        void Trace(string message);
+        void Debug(string message);
+        void Info(string message);
+        void Warn(string message);
+        void Error(string message);
+        void Fatal(string message);
     }
 }

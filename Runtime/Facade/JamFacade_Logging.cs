@@ -12,32 +12,34 @@ namespace JamForge
 #if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
 #endif
-        public static void T(string message) => Logger.T(message);
+        public static void Trace(string message) => Logger.Trace(message);
 
 #if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
 #endif
-        public static void D(string message) => Logger.D(message);
+        public static void Debug(string message) => Logger.Debug(message);
 
 #if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
 #endif
-        public static void I(string message) => Logger.I(message);
+        public static void Info(string message) => Logger.Info(message);
 
 #if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
 #endif
-        public static void W(string message) => Logger.W(message);
+        public static void Warn(string message) => Logger.Warn(message);
 
 #if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
 #endif
-        public static void E(string message) => Logger.E(message);
+        public static void Error(string message) => Logger.Error(message);
 
 #if UNITY_2022_2_OR_NEWER
         [HideInCallstack]
 #endif
-        public static void F(string message) => Logger.F(message);
+        public static void Fatal(string message) => Logger.Fatal(message);
+        
+        public static void Assert(bool condition, string message) => Logger.Assert(condition, message);
     }
 
     public partial class Jam

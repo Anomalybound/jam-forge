@@ -8,6 +8,7 @@ using JamForge.Serialization;
 using JamForge.Store;
 using MessagePipe;
 using UnityEngine;
+using UnityEngine.Scripting;
 using VContainer;
 using VContainer.Unity;
 
@@ -59,11 +60,11 @@ namespace JamForge
 
             // Resolver
             builder.Register<IJamResolver, JamResolver>(Lifetime.Scoped);
-            
+
             // Audios
             builder.RegisterEntryPoint<AudioController>();
 
-            InternalLog.I($"JamForge core services registered!");
+            InternalLog.Info($"JamForge core services registered!");
 
             builder.RegisterBuildCallback(OnCoreServicesRegistered);
         }
@@ -72,7 +73,7 @@ namespace JamForge
         {
             var packageInfo = resolver.Resolve<PackageInfo>();
             var version = packageInfo.Version;
-            InternalLog.D($"JamForge initialized! Version: {version}".DyeCyan());
+            InternalLog.Debug($"JamForge initialized! Version: {version}".DyeCyan());
         }
 
         private static void AssembleLogging(IContainerBuilder builder)
@@ -112,13 +113,39 @@ namespace JamForge
                     jamLogManager.AddAppender(fileLogAppender.WriteLine);
                 }
             }
-            ;
+
             jamLogManager.AddAppender(unityLogAppender.WriteLine);
             var jamLogger = jamLogManager.GetLogger("JamForge");
+
             InternalLog.Logger = jamLogger;
 
             builder.RegisterInstance(jamLogger);
             builder.RegisterInstance(jamLogManager).AsImplementedInterfaces();
+        }
+
+#if UNITY_2022_2_OR_NEWER
+        [HideInCallstack]
+#endif
+        [UnityEngine.Scripting.Preserve]
+        private static void UnityLogCallback(string condition, string stacktrace, LogType type)
+        {
+            switch (type)
+            {
+                case LogType.Exception:
+                case LogType.Error:
+                    InternalLog.Error(condition);
+                    break;
+                case LogType.Assert:
+                    InternalLog.Fatal(condition);
+                    break;
+                case LogType.Warning:
+                    InternalLog.Warn(condition);
+                    break;
+                case LogType.Log:
+                    InternalLog.Debug(condition);
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
         }
     }
 }
