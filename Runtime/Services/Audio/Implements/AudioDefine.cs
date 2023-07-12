@@ -10,7 +10,6 @@ namespace JamForge.Audio
         RoundRobin,
     }
 
-    [CreateAssetMenu(fileName = "New AudioDefine", menuName = "JamForge/Create AudioDefine")]
     public class AudioDefine : ScriptableObject, IAudioSound
     {
         [Header("Audio Clips")]
