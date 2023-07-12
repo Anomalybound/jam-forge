@@ -7,10 +7,10 @@ public class StoreExample : MonoBehaviour
     {
         var store = Jam.Stores.Memory.Get("TestStore");
         // store.Set("TestKey", "TestValue");
-        Jam.Logger.D(store.TryGet<string>("TestKey", out var value) ? value : "No value found for TestKey");
+        Jam.Logger.Debug(store.TryGet<string>("TestKey", out var value) ? value : "No value found for TestKey");
 
         var persistStore = Jam.Stores.Persist.Get("TestPersistStore");
         // persistStore.Set("TestKey", "TestValue");
-        Jam.Logger.D(persistStore.TryGet("TestKey", out value) ? value : "No value found for TestKey");
+        Jam.Logger.Debug(persistStore.TryGet("TestKey", out value) ? value : "No value found for TestKey");
     }
 }

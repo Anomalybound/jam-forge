@@ -79,20 +79,20 @@ namespace JamForge.StateMachine
         {
             if (States.TryAdd(index, state)) { return; }
 
-            InternalLog.E($"State machine already contains state with index {index}");
+            InternalLog.Error($"State machine already contains state with index {index}");
         }
 
         public void AddTransition(TIndex from, TIndex to, Func<TState, bool> condition)
         {
             if (!States.TryGetValue(from, out _))
             {
-                InternalLog.E($"State machine does not contain state with index {from}");
+                InternalLog.Error($"State machine does not contain state with index {from}");
                 return;
             }
 
             if (!States.TryGetValue(to, out _))
             {
-                InternalLog.E($"State machine does not contain state with index {to}");
+                InternalLog.Error($"State machine does not contain state with index {to}");
                 return;
             }
 

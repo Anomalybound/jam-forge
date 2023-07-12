@@ -12,6 +12,6 @@ public class MessageExample : MonoBehaviour
 
     public void OnGameStarted(GameStartMessage value)
     {
-        Jam.Logger.D($"Received GameStartMessage: {value.GameName}");
+        Jam.Logger.Debug($"Received GameStartMessage: {value.GameName}");
     }
 }

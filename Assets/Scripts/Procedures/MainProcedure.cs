@@ -13,11 +13,11 @@ public class MainProcedure : ProcedureBase
 
     protected override void OnEnter()
     {
-        Jam.Logger.D($"Main procedure entered: -> {TestServices.GetText()}");
+        Jam.Logger.Debug($"Main procedure entered: -> {TestServices.GetText()}");
     }
 
     protected override void OnExit()
     {
-        Jam.Logger.D($"Main procedure exited.");
+        Jam.Logger.Debug($"Main procedure exited.");
     }
 }
