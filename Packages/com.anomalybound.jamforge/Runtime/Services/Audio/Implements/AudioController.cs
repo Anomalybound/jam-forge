@@ -21,8 +21,8 @@ namespace JamForge.Audio
 
         private readonly Transform _root;
         private readonly IObjectPool<AudioSource> _audioSourcePool;
-        private const string DefaultSoundChannel = "GeneralSound";
-        private const string DefaultMusicChannel = "GeneralMusic";
+        private const string DefaultSoundChannel = "Default SoundEffects";
+        private const string DefaultMusicChannel = "Default Music";
 
         public AudioController()
         {
@@ -55,16 +55,19 @@ namespace JamForge.Audio
 
         public void PlayOneShot(IAudioSound sound)
         {
-            if (!_soundSources.TryGetValue(DefaultSoundChannel, out var audioSource))
+            var audioSource = GetOrCreateAudioSource(DefaultSoundChannel);
+
+            if (sound == null)
             {
-                audioSource = CreateAudioSource(DefaultSoundChannel);
-                _soundSources.TryAdd(DefaultSoundChannel, audioSource);
+                InternalLog.Warn($"AudioController[{DefaultSoundChannel}] is playing a null sound.");
+                return;
             }
 
             var audioClip = sound.GetClip();
             if (!audioClip)
             {
-                throw new Exception($"AudioClip is null. Sound: {sound}");
+                InternalLog.Warn($"AudioClip is null. Sound: {sound}");
+                return;
             }
 
             var volume = Volume;
@@ -84,10 +87,17 @@ namespace JamForge.Audio
 
         public void PlayOneShot(IAudioSound sound, Vector3 position)
         {
+            if (sound == null)
+            {
+                InternalLog.Warn($"AudioController is playing a null sound.");
+                return;
+            }
+
             var audioClip = sound.GetClip();
             if (!audioClip)
             {
-                throw new Exception($"AudioClip is null. Sound: {sound}");
+                InternalLog.Warn($"AudioClip is null. Sound: {sound}");
+                return;
             }
 
             var volume = Volume;
@@ -98,7 +108,7 @@ namespace JamForge.Audio
 
             if (sound.OverridePitch)
             {
-                InternalLog.W($"Pitch is not supported in PlayOneShot with position. Sound: {sound}");
+                InternalLog.Warn($"Pitch is not supported in PlayOneShot with position. Sound: {sound}");
             }
 
             AudioSource.PlayClipAtPoint(audioClip, position, volume);
@@ -108,18 +118,13 @@ namespace JamForge.Audio
         {
             channel ??= DefaultMusicChannel;
 
-            if (!_soundSources.TryGetValue(channel, out var audioSource))
+            if (sound == null)
             {
-                audioSource = CreateAudioSource(channel);
-                _soundSources.TryAdd(channel, audioSource);
+                InternalLog.Warn($"AudioController[{channel}] is playing a null sound.");
+                return null;
             }
 
-            var audioClip = sound.GetClip();
-            if (!audioClip)
-            {
-                throw new Exception($"AudioClip is null. Sound: {sound}");
-            }
-
+            var audioSource = GetOrCreateAudioSource(channel);
             return new AudioHandle(audioSource, sound, _audioSourcePool).AddTo(Handles);
         }
 
@@ -172,6 +177,16 @@ namespace JamForge.Audio
             audioSource.name = name;
             audioSource.pitch = Pitch;
             audioSource.volume = Volume;
+            return audioSource;
+        }
+
+        private AudioSource GetOrCreateAudioSource(string name)
+        {
+            if (_soundSources.TryGetValue(name, out var audioSource)) { return audioSource; }
+            
+            audioSource = CreateAudioSource(name);
+            _soundSources.TryAdd(name, audioSource);
+
             return audioSource;
         }
     }
