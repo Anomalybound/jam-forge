@@ -72,8 +72,9 @@ namespace JamForge.Audio
                 clipsToAdd.AddRange(Selection.GetFiltered<AudioClip>(SelectionMode.Assets));
             }
 
+            var folderPath = Path.GetDirectoryName(path);
             var savePath = EditorUtility.OpenFolderPanel("Create AudioDefine Individual",
-                path,
+                folderPath,
                 "Create AudioDefine Individual"
             );
 
