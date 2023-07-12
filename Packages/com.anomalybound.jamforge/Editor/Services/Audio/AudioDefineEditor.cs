@@ -11,7 +11,7 @@ namespace JamForge.Audio
     [CustomEditor(typeof(AudioDefine))]
     public class AudioDefineEditor : Editor
     {
-        [MenuItem("Assets/JamForge/Create AudioDefine Collection", false, 0)]
+        [MenuItem("Assets/Create/JamForge/AudioDefine/Create Collection", false, 0)]
         public static void CreateDefineCollection()
         {
             const BindingFlags flag = BindingFlags.Default | BindingFlags.Instance | BindingFlags.NonPublic;
@@ -19,11 +19,11 @@ namespace JamForge.Audio
             var define = CreateInstance<AudioDefine>();
             var clipsToAdd = new List<AudioClip>();
             var isFolder = Selection.activeObject is DefaultAsset;
+            var path = AssetDatabase.GetAssetPath(Selection.activeObject);
             var defaultName = "";
             if (isFolder)
             {
                 defaultName = Selection.activeObject.name;
-                var path = AssetDatabase.GetAssetPath(Selection.activeObject);
                 var assets = AssetDatabase.FindAssets("t:AudioClip", new[] { path });
                 var audioClips = assets.Select(AssetDatabase.GUIDToAssetPath)
                     .Select(AssetDatabase.LoadAssetAtPath<AudioClip>).ToArray();
@@ -41,7 +41,7 @@ namespace JamForge.Audio
                 $"AD_{defaultName}",
                 "asset",
                 "Create AudioDefine",
-                "Assets"
+                path
             );
 
             if (string.IsNullOrEmpty(savePath)) { return; }
@@ -51,16 +51,16 @@ namespace JamForge.Audio
             AssetDatabase.Refresh();
         }
 
-        [MenuItem("Assets/JamForge/Create AudioDefine Individual", false, 1)]
+        [MenuItem("Assets/Create/JamForge/AudioDefine/Create Individually", false, 1)]
         public static void CreateDefineIndividual()
         {
             const BindingFlags flag = BindingFlags.Default | BindingFlags.Instance | BindingFlags.NonPublic;
 
             var clipsToAdd = new List<AudioClip>();
             var isFolder = Selection.activeObject is DefaultAsset;
+            var path = AssetDatabase.GetAssetPath(Selection.activeObject);
             if (isFolder)
             {
-                var path = AssetDatabase.GetAssetPath(Selection.activeObject);
                 var assets = AssetDatabase.FindAssets("t:AudioClip", new[] { path });
                 var audioClips = assets.Select(AssetDatabase.GUIDToAssetPath)
                     .Select(AssetDatabase.LoadAssetAtPath<AudioClip>).ToArray();
@@ -73,7 +73,7 @@ namespace JamForge.Audio
             }
 
             var savePath = EditorUtility.OpenFolderPanel("Create AudioDefine Individual",
-                Application.dataPath,
+                path,
                 "Create AudioDefine Individual"
             );
 
@@ -100,8 +100,8 @@ namespace JamForge.Audio
             AssetDatabase.Refresh();
         }
 
-        [MenuItem("Assets/JamForge/Create AudioDefine Individual", true, 1)]
-        [MenuItem("Assets/JamForge/Create AudioDefine Collection", true, 0)]
+        [MenuItem("Assets/Create/JamForge/AudioDefine/Create Collection", true)]
+        [MenuItem("Assets/Create/JamForge/AudioDefine/Create Individually", true)]
         public static bool CreateAudioDefineValidation()
         {
             var isFolder = Selection.activeObject is DefaultAsset;
