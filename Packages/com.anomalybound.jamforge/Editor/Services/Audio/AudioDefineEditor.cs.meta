@@ -1,3 +1,12 @@
 fileFormatVersion: 2
 guid: cd993710dacf4724923eade6734f5de3
-timeCreated: 1689103591
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - audioDefineUxml: {fileID: 9197481963319205126, guid: bba296be52cf141ceabccdbc5d10a43a, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
