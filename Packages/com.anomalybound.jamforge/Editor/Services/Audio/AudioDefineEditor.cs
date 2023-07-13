@@ -1,11 +1,15 @@
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace JamForge.Audio
 {
     [CustomEditor(typeof(AudioDefine))]
     public class AudioDefineEditor : Editor
     {
+        [SerializeField] private VisualTreeAsset audioDefineUxml;
+
         private SerializedProperty _clips;
         private SerializedProperty _loop;
         private SerializedProperty _overrideVolume;
@@ -17,13 +21,15 @@ namespace JamForge.Audio
         private SerializedProperty _pitchMin;
         private SerializedProperty _pitchMax;
 
+        private AudioDefine _define;
+
         private void OnEnable()
         {
             _clips = serializedObject.FindProperty("clips");
             _loop = serializedObject.FindProperty("loop");
             _overrideVolume = serializedObject.FindProperty("overrideVolume");
             _overridePitch = serializedObject.FindProperty("overridePitch");
-            _playbackMode = serializedObject.FindProperty("playbackMode");
+            _playbackMode = serializedObject.FindProperty("playBackMode");
 
             _crossFade = serializedObject.FindProperty("crossFade");
             _volume = serializedObject.FindProperty("volume");

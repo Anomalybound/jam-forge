@@ -1,0 +1,27 @@
+.script-header {
+    font-size: 22px;
+    color: var(--unity-colors-default-text);
+    -unity-text-align: upper-left;
+    border-left-color: rgb(255, 134, 0);
+    border-right-color: rgb(255, 134, 0);
+    border-top-color: rgb(255, 134, 0);
+    border-bottom-color: rgb(255, 134, 0);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    -unity-font-style: bold;
+}
+
+.section {
+    background-color: var(--unity-colors-box-background);
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    margin-top: 8px;
+}

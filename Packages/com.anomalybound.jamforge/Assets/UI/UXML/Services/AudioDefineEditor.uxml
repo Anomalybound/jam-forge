@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.anomalybound.jamforge/Assets/UI/USS/Core.uss?fileID=7433441132597879392&amp;guid=143d9ec31d8154e6a8b3c3c29209ddf7&amp;type=3#Core" />
+    <JamForge.UIControls.ScriptHeader label="AudioDefine" />
+</ui:UXML>

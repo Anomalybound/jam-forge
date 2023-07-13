@@ -5,6 +5,7 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - audioDefineUxml: {fileID: 9197481963319205126, guid: bba296be52cf141ceabccdbc5d10a43a, type: 3}
+  - audioDefineUss: {fileID: 7433441132597879392, guid: 143d9ec31d8154e6a8b3c3c29209ddf7, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
