@@ -2,7 +2,8 @@
     "name": "JamForge.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:fe070fb05f09c458cbca6257b1a68646"
+        "GUID:fe070fb05f09c458cbca6257b1a68646",
+        "GUID:720d33f97ce5b450cbb9c9941462dee9"
     ],
     "includePlatforms": [
         "Editor"

@@ -13,6 +13,7 @@
     "lightweight"
   ],
   "dependencies": {
+    "com.unity.vectorgraphics": "2.0.0-preview.21",
     "jp.hadashikick.vcontainer": "1.13.2",
     "com.cysharp.messagepipe": "1.7.4",
     "com.cysharp.messagepipe.vcontainer": "1.7.4",
