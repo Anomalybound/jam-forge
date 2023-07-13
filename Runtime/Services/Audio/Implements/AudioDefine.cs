@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 namespace JamForge.Audio
 {
-    public enum SelectType
+    public enum PlayBackMode
     {
         Random,
         RoundRobin,
@@ -17,7 +17,7 @@ namespace JamForge.Audio
 
         [Header("Audio Settings")]
         [SerializeField] private bool loop;
-        [SerializeField] private SelectType selectType;
+        [SerializeField] private PlayBackMode playBackMode;
         [SerializeField] private float crossFade = 0.1f;
         
         [Header("Audio Overrides")]
@@ -40,12 +40,12 @@ namespace JamForge.Audio
         {
             if (clips.Length == 0) { return null; }
 
-            switch (selectType)
+            switch (playBackMode)
             {
-                case SelectType.RoundRobin:
+                case PlayBackMode.RoundRobin:
                     ClipIndex = (ClipIndex + 1) % clips.Length;
                     break;
-                case SelectType.Random:
+                case PlayBackMode.Random:
                     ClipIndex = Random.Range(0, clips.Length);
                     break;
                 default: throw new ArgumentOutOfRangeException();

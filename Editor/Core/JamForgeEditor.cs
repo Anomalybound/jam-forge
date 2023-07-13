@@ -7,7 +7,7 @@ namespace JamForge
     [Preserve]
     public class JamForgeEditor
     {
-        [MenuItem("Tools/JamForge/Setup Config File %#k")]
+        [MenuItem("JamForge/Setup Config File %#k")]
         public static void SetupConfig()
         {
             var jamConfig = JamForgeConfig.Load();
