@@ -53,6 +53,12 @@ namespace JamForge
                 defaultProcedure = procedureTypes[0];
             }
 
+            if (string.IsNullOrEmpty(defaultProcedure))
+            {
+                InternalLog.Warn($"No default procedure was found.");
+                return;
+            }
+
             StateMachineRunner.Start(defaultProcedure);
         }
 

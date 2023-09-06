@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace JamForge
 {
-    [CustomEditor(typeof(GameProcedures))]
+    [CustomEditor(typeof(GameProcedures), true)]
     public class GameProceduresEditor : Editor
     {
         private SerializedProperty _defaultProcedure;
@@ -45,17 +45,20 @@ namespace JamForge
         private void SetProcedure(int index, string value)
         {
             _procedures.GetArrayElementAtIndex(index).stringValue = value;
+            serializedObject.ApplyModifiedProperties();
         }
 
         private void AddProcedure(string procedure)
         {
             _procedures.arraySize++;
             _procedures.GetArrayElementAtIndex(_procedures.arraySize - 1).stringValue = procedure;
+            serializedObject.ApplyModifiedProperties();
         }
 
         private void RemoveProcedure(int index)
         {
             _procedures.DeleteArrayElementAtIndex(index);
+            serializedObject.ApplyModifiedProperties();
         }
 
         private void OnEnable()
@@ -244,7 +247,7 @@ namespace JamForge
                             AddProcedure(types[j].FullName);
                             if (string.IsNullOrEmpty(DefaultProcedure))
                             {
-                                DefaultProcedure = procedures[0];
+                                DefaultProcedure = _procedures.GetArrayElementAtIndex(0).stringValue;
                             }
 
                             MarkDirty();
@@ -268,16 +271,16 @@ namespace JamForge
                 {
                     Undo.RecordObject(target, "Delete Procedure");
 
-                    if (DefaultProcedure == procedures[_procedureList.index])
+                    if (DefaultProcedure == _procedures.GetArrayElementAtIndex(_procedureList.index).stringValue)
                     {
                         DefaultProcedure = null;
                     }
 
                     RemoveProcedure(_procedureList.index);
 
-                    if (string.IsNullOrEmpty(DefaultProcedure) && procedures.Count > 0)
+                    if (string.IsNullOrEmpty(DefaultProcedure) && _procedures.arraySize > 0)
                     {
-                        DefaultProcedure = procedures[0];
+                        DefaultProcedure = _procedures.GetArrayElementAtIndex(0).stringValue;
                     }
 
                     MarkDirty();
