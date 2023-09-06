@@ -1,34 +1,36 @@
-﻿using JamForge;
-using MessagePipe;
+﻿using MessagePipe;
 using UnityEngine.Scripting;
 
-[Preserve]
-public class InitProcedure : ProcedureBase
+namespace JamForge.Samples
 {
-    private IPublisher<GameStartMessage> GameStartPublisher { get; }
-
-    public InitProcedure(IPublisher<GameStartMessage> gameStartPublisher)
+    [Preserve]
+    public class InitProcedure : ProcedureBase
     {
-        GameStartPublisher = gameStartPublisher;
-    }
+        private IPublisher<GameStartMessage> GameStartPublisher { get; }
 
-    protected override void OnEnter()
-    {
-        GameStartPublisher.Publish(new GameStartMessage("Game Sample"));
-        Jam.Logger.Debug($"Initial procedure entered.");
-    }
-
-    protected override void OnUpdate(float deltaTime)
-    {
-        if (ElapsedTime >= 2f)
+        public InitProcedure(IPublisher<GameStartMessage> gameStartPublisher)
         {
-            Jam.Logger.Debug($"Switching to main procedure.");
-            GameProcedures.SwitchProcedure("MainProcedure");
+            GameStartPublisher = gameStartPublisher;
         }
-    }
 
-    protected override void OnExit()
-    {
-        Jam.Logger.Debug($"Initial procedure exited.");
+        protected override void OnEnter()
+        {
+            GameStartPublisher.Publish(new GameStartMessage("Game Sample"));
+            Jam.Logger.Debug($"Initial procedure entered.");
+        }
+
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (ElapsedTime >= 2f)
+            {
+                Jam.Logger.Debug($"Switching to main procedure.");
+                GameProcedures.SwitchProcedure("MainProcedure");
+            }
+        }
+
+        protected override void OnExit()
+        {
+            Jam.Logger.Debug($"Initial procedure exited.");
+        }
     }
 }

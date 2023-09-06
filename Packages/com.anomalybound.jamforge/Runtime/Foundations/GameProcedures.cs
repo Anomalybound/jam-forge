@@ -39,7 +39,14 @@ namespace JamForge
 
                     procedure.GameProcedures = this;
 
-                    var procedureName = procedureType.Name;
+                    var procedureName = procedureType.FullName;
+                    if (string.IsNullOrEmpty(procedureName))
+                    {
+                        // This should not happen
+                        InternalLog.Error($"Procedure {procedureType.FullName} has no full name");
+                        continue;
+                    }
+                    
                     StateMachineRunner.AddState(procedureName, procedure);
                     Procedures.Add(procedureName, procedure);
                 } catch (Exception e)

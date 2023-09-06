@@ -37,6 +37,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ### Improves
 - `AudioController` robust update (null check and logs)
 
-## [0.1.61] - 2023-09-06
+## [0.1.62] - 2023-09-06
 ### Fixes
 - NPE fixes for GameProcedures / StateMachineRunner
+- Should create procedure from Type.FullName
